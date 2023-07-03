@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DentalClinicSystem.Common\DentalClinicSystem.Common.csproj" />
+    <ProjectReference Include="..\DentalClinicSystem.Data.Models\DentalClinicSystem.Data.Models.csproj" />
+    <ProjectReference Include="..\DentalClinicSystem.Data\DentalClinicSystem.Data.csproj" />
+    <ProjectReference Include="..\DentalClinicSystem.Web.ViewModels\DentalClinicSystem.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

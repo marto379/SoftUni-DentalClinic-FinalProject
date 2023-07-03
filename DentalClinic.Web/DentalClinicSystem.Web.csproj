@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-DentalClinic.Web-98A54D7C-93E6-4287-984B-5D8BBA2D4255</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DentalClinicSystem.Common\DentalClinicSystem.Common.csproj" />
+    <ProjectReference Include="..\DentalClinicSystem.Data.Models\DentalClinicSystem.Data.Models.csproj" />
+    <ProjectReference Include="..\DentalClinicSystem.Data\DentalClinicSystem.Data.csproj" />
+    <ProjectReference Include="..\DentalClinicSystem.Services\DentalClinicSystem.Services.csproj" />
+    <ProjectReference Include="..\DentalClinicSystem.Web.ViewModels\DentalClinicSystem.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
