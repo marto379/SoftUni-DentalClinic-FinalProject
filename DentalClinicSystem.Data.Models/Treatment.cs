@@ -22,5 +22,7 @@ namespace DentalClinicSystem.Data.Models
 
         [MaxLength(EntityValidationConstants.descriptionMaxLength)]
         public string? Description { get; set; }
+
+        public ICollection<Appointment> Treatments { get; set; } = new List<Appointment>();
     }
 }

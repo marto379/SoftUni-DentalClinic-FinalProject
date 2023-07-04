@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DentalClinicSystem.Web.Controllers
 {
-    public class PatientController : Controller
+    public class PatientController : BaseController
     {
         private IPatientService patientService;
 
@@ -13,17 +13,18 @@ namespace DentalClinicSystem.Web.Controllers
             this.patientService = patientService;
         }
 
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            return View();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Add()
-        {
-            BookingViewModel model = new();
-
+            var model = await patientService.GetPatientAppointmentsAsync();
             return View(model);
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> Add()
+        //{
+        //    BookingViewModel model = new();
+
+        //    return View(model);
+        //}
     }
 }

@@ -4,6 +4,7 @@ using DentalClinicSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalClinicSystem.Data.Migrations
 {
     [DbContext(typeof(DentalClinicDbContext))]
-    partial class DentalClinicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230703201834_dbFix")]
+    partial class dbFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +31,6 @@ namespace DentalClinicSystem.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DentistId")
                         .HasColumnType("uniqueidentifier");
@@ -50,9 +49,6 @@ namespace DentalClinicSystem.Data.Migrations
                     b.Property<DateTime>("PreferredHour")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TreatmentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -65,7 +61,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Dentist", b =>
@@ -96,7 +92,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Dentists", (string)null);
+                    b.ToTable("Dentists");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Invoice", b =>
@@ -118,7 +114,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Invoice", (string)null);
+                    b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Patient", b =>
@@ -153,7 +149,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Treatment", b =>
@@ -163,6 +159,9 @@ namespace DentalClinicSystem.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("AppointmentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
@@ -182,47 +181,11 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceId");
-
-                    b.ToTable("Treatments", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Super white teeth",
-                            Name = "Whitening",
-                            Price = 99.00m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Painless extraction",
-                            Name = "Tooth Extraction",
-                            Price = 79.99m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Dental procedure used to treat infection at the centre of a tooth",
-                            Name = "Root canal treatment",
-                            Price = 149.99m
-                        });
-                });
-
-            modelBuilder.Entity("DentalClinicSystem.Data.Models.TreatmentAppoinment", b =>
-                {
-                    b.Property<int>("TreatmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TreatmentId", "AppointmentId");
-
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("TreatmentsAppoinments", (string)null);
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("Treatments");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.UserAppointment", b =>
@@ -237,7 +200,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("UsersAppointments", (string)null);
+                    b.ToTable("UsersAppointments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -496,28 +459,13 @@ namespace DentalClinicSystem.Data.Migrations
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Treatment", b =>
                 {
+                    b.HasOne("DentalClinicSystem.Data.Models.Appointment", null)
+                        .WithMany("Treatments")
+                        .HasForeignKey("AppointmentId");
+
                     b.HasOne("DentalClinicSystem.Data.Models.Invoice", null)
                         .WithMany("Treatments")
                         .HasForeignKey("InvoiceId");
-                });
-
-            modelBuilder.Entity("DentalClinicSystem.Data.Models.TreatmentAppoinment", b =>
-                {
-                    b.HasOne("DentalClinicSystem.Data.Models.Appointment", "Appointment")
-                        .WithMany()
-                        .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DentalClinicSystem.Data.Models.Treatment", "Treatment")
-                        .WithMany()
-                        .HasForeignKey("TreatmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("Treatment");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.UserAppointment", b =>
@@ -588,6 +536,11 @@ namespace DentalClinicSystem.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DentalClinicSystem.Data.Models.Appointment", b =>
+                {
+                    b.Navigation("Treatments");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Dentist", b =>

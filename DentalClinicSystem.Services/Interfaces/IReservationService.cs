@@ -10,5 +10,6 @@ namespace DentalClinicSystem.Services.Interfaces
     public interface IReservationService
     {
         Task<BookingViewModel> GetBookingViewModelAsync();
+        Task AddReservationAsync(BookingViewModel model, string userId);
     }
 }

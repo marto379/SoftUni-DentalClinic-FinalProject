@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentalClinicSystem.Web.View
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{038EC444-FCB8-466E-A149-9230E4983114}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentalClinicSystem.Services", "DentalClinicSystem.Services\DentalClinicSystem.Services.csproj", "{36A7FEE5-E478-4851-A255-B49094DF0EE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentalClinicSystem.Services", "DentalClinicSystem.Services\DentalClinicSystem.Services.csproj", "{36A7FEE5-E478-4851-A255-B49094DF0EE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

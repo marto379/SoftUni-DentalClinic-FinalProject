@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace DentalClinicSystem.Data.Configurations
 {
-    public class AppointmentEntityConfig : IEntityTypeConfiguration<Appointment>
+    public class TreatmentAppointmentEntityConfig : IEntityTypeConfiguration<TreatmentAppoinment>
     {
-        public void Configure(EntityTypeBuilder<Appointment> builder)
+        public void Configure(EntityTypeBuilder<TreatmentAppoinment> builder)
         {
-            
+            builder
+                .HasKey(x => new { x.TreatmentId, x.AppointmentId });
         }
     }
 }

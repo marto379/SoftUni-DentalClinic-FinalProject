@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace DentalClinicSystem.Services.Interfaces
 {
-    public interface IPatientService
+    public interface ITreatmentService
     {
-        Task<BookingViewModel> GetAddPatientModelAsync();
-        Task<IEnumerable<BookingViewModel>> GetPatientAppointmentsAsync();
+        Task<IEnumerable<TreatmentViemModel>> AllTreatmentsAsync();
     }
 }

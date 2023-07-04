@@ -4,6 +4,7 @@ using DentalClinicSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalClinicSystem.Data.Migrations
 {
     [DbContext(typeof(DentalClinicDbContext))]
-    partial class DentalClinicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230703221809_treatmentAdd")]
+    partial class treatmentAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +31,6 @@ namespace DentalClinicSystem.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DentistId")
                         .HasColumnType("uniqueidentifier");
@@ -65,7 +64,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Dentist", b =>
@@ -96,7 +95,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Dentists", (string)null);
+                    b.ToTable("Dentists");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Invoice", b =>
@@ -118,7 +117,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Invoice", (string)null);
+                    b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Patient", b =>
@@ -153,7 +152,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Treatment", b =>
@@ -184,7 +183,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("InvoiceId");
 
-                    b.ToTable("Treatments", (string)null);
+                    b.ToTable("Treatments");
 
                     b.HasData(
                         new
@@ -222,7 +221,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("TreatmentsAppoinments", (string)null);
+                    b.ToTable("TreatmentsAppoinments");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.UserAppointment", b =>
@@ -237,7 +236,7 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("UsersAppointments", (string)null);
+                    b.ToTable("UsersAppointments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

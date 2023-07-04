@@ -1,6 +1,7 @@
 ﻿using DentalClinicSystem.Data;
 using DentalClinicSystem.Services.Interfaces;
 using DentalClinicSystem.Web.ViewModels.Reservation;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,20 @@ namespace DentalClinicSystem.Services
             var model = new BookingViewModel();
 
             return model;
+        }
+
+        public async Task<IEnumerable<BookingViewModel>> GetPatientAppointmentsAsync()
+        {
+            return await dbContext.Appointments
+                .Select(a => new BookingViewModel
+                {
+                    FirstName = a.FirstName,
+                    LastName = a.LastName,
+                    PhoneNumber = a.User.PhoneNumber,
+                    PreferredHour = a.PreferredHour,
+                    Date = a.Date,
+                    TreatmentId = a.TreatmentId
+                }).ToListAsync();
         }
     }
 }

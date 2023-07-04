@@ -1,1 +1,16 @@
-﻿
+﻿@model ICollection<BookingViewModel>
+@{
+    ViewBag.Title = "Patient Appointments";
+}
+
+<div class="text-center row">
+    @foreach (var appoinment in Model)
+    {
+        <div class="card-body">
+            <h5 class="card-title mt-1">@appoinment.FirstName @appoinment.LastName</h5>
+            <p class="mb-0"><span class="fw-bold">Date: </span>@appoinment.Date</p>
+            <p class="mb-0"><span class="fw-bold">Hour: </span>@appoinment.PreferredHour</p>
+            <p class="mb-0"><span class="fw-bold">Treatment: </span>@appoinment.TreatmentId.ToString()</p>
+        </div>
+    }
+</div>

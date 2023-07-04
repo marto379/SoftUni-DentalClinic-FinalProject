@@ -33,6 +33,8 @@ namespace DentalClinicSystem.Web
 
             builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<IReservationService, ReservationService>();
+            builder.Services.AddScoped<IDentistService, DentistService>();
+            builder.Services.AddScoped<ITreatmentService, TreatmentService>();
 
             builder.Services.AddControllersWithViews();
 

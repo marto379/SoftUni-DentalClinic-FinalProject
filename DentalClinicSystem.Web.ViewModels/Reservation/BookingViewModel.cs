@@ -14,8 +14,12 @@ namespace DentalClinicSystem.Web.ViewModels.Reservation
 
         public string PhoneNumber { get; set; } = null!;
 
-        public string Gender { get; set; } = null!;
+        public DateTime PreferredHour { get; set; }
+
+        public DateTime Date { get; set; } 
 
         public int TreatmentId { get; set; }
+
+        public IEnumerable<TreatmentViemModel> Treatments { get; set; } = new List<TreatmentViemModel>();
     }
 }
