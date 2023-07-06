@@ -20,6 +20,8 @@ namespace DentalClinicSystem.Web.ViewModels.Reservation
 
         public int TreatmentId { get; set; }
 
+        public string Treatment { get; set; } = null!;
+
         public IEnumerable<TreatmentViemModel> Treatments { get; set; } = new List<TreatmentViemModel>();
     }
 }

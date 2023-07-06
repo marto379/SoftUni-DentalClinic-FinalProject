@@ -38,6 +38,6 @@ namespace DentalClinicSystem.Data.Models
         [Required]
         public Treatment Treatment { get; set; } = null!;
 
-        public ICollection<TreatmentAppoinment> TreatmentAppoinments { get; set; } = new List<TreatmentAppoinment>();
+        
     }
 }

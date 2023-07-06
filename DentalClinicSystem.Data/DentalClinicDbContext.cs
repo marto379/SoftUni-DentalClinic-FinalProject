@@ -23,8 +23,7 @@
 
         public DbSet<UserAppointment> UsersAppointments { get; set; } = null!;
 
-        public DbSet<TreatmentAppoinment> TreatmentsAppoinments { get; set; } = null!;
-
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             Assembly configAssebmly = Assembly.GetAssembly(typeof(DentalClinicDbContext)) ??

@@ -16,6 +16,7 @@ namespace DentalClinicSystem.Data.Configurations
             builder.Property(t => t.Price)
                 .HasPrecision(18, 2);
 
+            
             builder.HasData(GenerateTreatments());
         }
 

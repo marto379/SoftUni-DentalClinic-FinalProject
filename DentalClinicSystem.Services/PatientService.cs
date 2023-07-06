@@ -36,7 +36,7 @@ namespace DentalClinicSystem.Services
                     PhoneNumber = a.User.PhoneNumber,
                     PreferredHour = a.PreferredHour,
                     Date = a.Date,
-                    TreatmentId = a.TreatmentId
+                    Treatment = a.Treatment.Name
                 }).ToListAsync();
         }
     }
