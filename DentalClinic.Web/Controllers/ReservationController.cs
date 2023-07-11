@@ -1,9 +1,9 @@
-﻿using DentalClinicSystem.Services.Interfaces;
-using DentalClinicSystem.Web.ViewModels.Reservation;
-using Microsoft.AspNetCore.Mvc;
-
-namespace DentalClinicSystem.Web.Controllers
+﻿namespace DentalClinicSystem.Web.Controllers
 {
+    using DentalClinic.Web.Infrastructure.Extensions;
+    using DentalClinicSystem.Services.Interfaces;
+    using DentalClinicSystem.Web.ViewModels.Reservation;
+    using Microsoft.AspNetCore.Mvc;
     public class ReservationController : BaseController
     {
         IReservationService reservationService;
@@ -36,7 +36,7 @@ namespace DentalClinicSystem.Web.Controllers
             try
             {
 
-                var userId = GetUserId();
+                var userId = User.GetId();
 
                 await this.reservationService.AddReservationAsync(model, userId);
             }

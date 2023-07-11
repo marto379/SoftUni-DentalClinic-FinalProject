@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DentalClinic.Web.Infrastructure\DentalClinic.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\DentalClinicSystem.Common\DentalClinicSystem.Common.csproj" />
     <ProjectReference Include="..\DentalClinicSystem.Data.Models\DentalClinicSystem.Data.Models.csproj" />
     <ProjectReference Include="..\DentalClinicSystem.Data\DentalClinicSystem.Data.csproj" />

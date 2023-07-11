@@ -7,9 +7,10 @@ namespace DentalClinicSystem.Web.Controllers
     [Authorize]
     public class BaseController : Controller
     {
-        protected string GetUserId()
-        {
-            return User.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
+        //public string GetUserId()
+        //{
+        //    return User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //}
+
     }
 }

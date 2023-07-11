@@ -1,11 +1,22 @@
-﻿@using DentalClinicSystem.Data.Models
+﻿@using DentalClinic.Web.Infrastructure.Extensions
+@using DentalClinicSystem.Data.Models
+@using DentalClinicSystem.Services.Interfaces
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IDentistService dentistService
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+        string userId = User.GetId();
+        bool isUserAdentist = await dentistService.IsDentistExist(userId);
+        if (isUserAdentist)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-action="Add" asp-controller="Dentist">Add Patient</a>
+            </li>
+        }
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
     </li>

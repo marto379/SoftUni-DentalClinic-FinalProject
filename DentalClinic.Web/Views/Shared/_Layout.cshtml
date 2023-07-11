@@ -1,4 +1,6 @@
-﻿@using static DentalClinicSystem.Common.GeneralApplicationConstants;
+﻿@using DentalClinicSystem.Services.Interfaces
+@using static DentalClinicSystem.Common.GeneralApplicationConstants;
+@inject IDentistService dentistService;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +14,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-secondary border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Dental Clinic</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -27,13 +29,13 @@
                         <li class="nav-item">
                             @if (!User?.Identity?.IsAuthenticated ?? false)
                             {
-                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Book Now!</a>
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Book Now!</a>
                             }
                             else
                             {
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="Booking">Book Now!</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="Booking">Book Now!</a>
                             }
-                            
+
                         </li>
                         <li>
                             <div class="btn-group">
@@ -42,9 +44,9 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Whitening">Whitening</a></li>
-                                    <li><a class="dropdown-item" href="#">Root extraction</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Root">Something else here</a></li>
-                                    
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Extraction">Tooth extraction</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Root">Root treatment</a></li>
+
                                 </ul>
                             </div>
                         </li>
@@ -67,7 +69,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-dark bg-primary text-light">
+    <footer class="border-top footer text-dark bg-secondary text-light">
         <div class="container">
             &copy; DentalClinic @ReleaseYear
             @if (DateTime.UtcNow.Year != ReleaseYear)
