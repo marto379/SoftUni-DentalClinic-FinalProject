@@ -34,11 +34,11 @@ namespace DentalClinicSystem.Data.Models
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
-        [ForeignKey(nameof(User))]
-        public string UserId { get; set; } = null!;
+        [ForeignKey(nameof(Dentist))]
+        public Guid DentistId { get; set; }
 
         [Required]
-        public IdentityUser User { get; set; } = null!;
+        public Dentist Dentist { get; set; } = null!;
 
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 

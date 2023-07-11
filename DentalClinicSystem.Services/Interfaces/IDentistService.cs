@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DentalClinicSystem.Web.ViewModels.Dentist;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,7 @@ namespace DentalClinicSystem.Services.Interfaces
     public interface IDentistService
     {
         Task<bool> IsDentistExist(string userId);
+        Task AddPatientAsync(AddPatientViewModel model, string dentistId);
+        Task<ICollection<AddPatientViewModel>> GetAllPatientAsync();
     }
 }

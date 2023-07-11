@@ -32,5 +32,7 @@
         public IdentityUser User { get; set; } = null!;
 
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+
+        public ICollection<Patient> Patients { get; set; } = new List<Patient>();
     }
 }

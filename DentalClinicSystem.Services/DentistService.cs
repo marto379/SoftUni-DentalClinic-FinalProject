@@ -1,5 +1,7 @@
 ﻿using DentalClinicSystem.Data;
+using DentalClinicSystem.Data.Models;
 using DentalClinicSystem.Services.Interfaces;
+using DentalClinicSystem.Web.ViewModels.Dentist;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,33 @@ namespace DentalClinicSystem.Services
         public DentistService(DentalClinicDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public async Task AddPatientAsync(AddPatientViewModel model, string dentistId)
+        {
+            Patient patient = new Patient
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                Gender = model.Gender,
+                DentistId = Guid.Parse(dentistId)
+            };
+
+            await dbContext.Patients.AddAsync(patient);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<AddPatientViewModel>> GetAllPatientAsync()
+        {
+            return await dbContext.Patients
+                .Select(p => new AddPatientViewModel
+                {
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    PhoneNumber = p.PhoneNumber,
+                    Gender = p.Gender
+                }).ToListAsync();
         }
 
         public async Task<bool> IsDentistExist(string userId)

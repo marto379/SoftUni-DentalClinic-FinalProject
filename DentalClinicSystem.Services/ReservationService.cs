@@ -21,8 +21,7 @@ namespace DentalClinicSystem.Services
 
         public async Task AddReservationAsync(BookingViewModel model, string userId)
         {
-            //var preferredHour = DateTime.TryParse(model.PreferredHour, out DateTime PreferredHour);
-
+           
             Appointment appointmentToAdd = new Appointment()
             {
                 FirstName = model.FirstName,

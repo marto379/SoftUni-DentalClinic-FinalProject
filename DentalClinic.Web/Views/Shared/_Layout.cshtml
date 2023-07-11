@@ -1,4 +1,5 @@
-﻿@using DentalClinicSystem.Services.Interfaces
+﻿@using DentalClinic.Web.Infrastructure.Extensions
+@using DentalClinicSystem.Services.Interfaces
 @using static DentalClinicSystem.Common.GeneralApplicationConstants;
 @inject IDentistService dentistService;
 
@@ -53,6 +54,14 @@
 
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
+                            string userId = User.GetId();
+                            bool isUserAdentist = await dentistService.IsDentistExist(userId);
+                            if (isUserAdentist)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Dentist" asp-action="AddPatient">My patients</a>
+                                </li>
+                            }
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="All">My appointments</a>
                             </li>

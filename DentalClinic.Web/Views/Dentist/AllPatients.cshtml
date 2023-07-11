@@ -1,0 +1,18 @@
+﻿@model ICollection<AddPatientViewModel>
+
+@{
+    ViewBag.Title = "My Patients";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="card-body">
+    @foreach (var patient in Model)
+    {
+
+        <div class="list-group-item">
+            <h5 class="card-title mt-1 ">@patient.FirstName @patient.LastName</h5>
+            <p class="mb-0"><span class="fw-bold">Hour: </span>@patient.PhoneNumber</p>
+            <p class="mb-0"><span class="fw-bold">Treatment: </span>@patient.Gender</p>
+        </div>
+    }
+</div>
