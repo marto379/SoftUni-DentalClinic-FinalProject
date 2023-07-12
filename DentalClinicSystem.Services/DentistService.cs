@@ -19,15 +19,21 @@ namespace DentalClinicSystem.Services
             this.dbContext = dbContext;
         }
 
-        public async Task AddPatientAsync(AddPatientViewModel model, string dentistId)
+        public async Task AddPatientAsync(AddPatientViewModel model, string userId)
         {
+            var dentist = await dbContext.Dentists
+                .Where(d => d.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            var dentistId = dentist.Id;
+            
             Patient patient = new Patient
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
                 Gender = model.Gender,
-                DentistId = Guid.Parse(dentistId)
+                DentistId = dentistId
             };
 
             await dbContext.Patients.AddAsync(patient);
