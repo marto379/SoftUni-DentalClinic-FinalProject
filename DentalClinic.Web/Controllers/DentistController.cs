@@ -1,10 +1,12 @@
 ﻿using DentalClinic.Web.Infrastructure.Extensions;
 using DentalClinicSystem.Services.Interfaces;
 using DentalClinicSystem.Web.ViewModels.Dentist;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DentalClinicSystem.Web.Controllers
 {
+    [Authorize]
     public class DentistController : Controller
     {
         IDentistService dentistService;
@@ -15,8 +17,14 @@ namespace DentalClinicSystem.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddPatient()
+        public async Task<IActionResult> AddPatient()
         {
+            bool idDentist = await dentistService.IsDentistExist(User.GetId());
+            if (!idDentist)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var model = new AddPatientViewModel();
             return View(model);
         }
@@ -34,6 +42,11 @@ namespace DentalClinicSystem.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> AllPatients()
         {
+            bool idDentist = await dentistService.IsDentistExist(User.GetId());
+            if (!idDentist)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ICollection<AddPatientViewModel> model = await dentistService.GetAllPatientAsync();
 
             return View(model);
