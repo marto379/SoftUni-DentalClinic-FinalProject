@@ -1,4 +1,6 @@
 ﻿using DentalClinicSystem.Services.Interfaces;
+using DentalClinicSystem.Web.ViewModels.Dentist;
+using DentalClinicSystem.Web.ViewModels.Patient;
 using DentalClinicSystem.Web.ViewModels.Reservation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,12 +21,28 @@ namespace DentalClinicSystem.Web.Controllers
             return View(model);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Add()
-        //{
-        //    BookingViewModel model = new();
+        [HttpGet]
+        public async Task<IActionResult> AddAppointment(string Id)
+        {
+            AddAppointmentViewModel model = await patientService.GetAddAppointmentAsync(Id);
 
-        //    return View(model);
+            return View(model);
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(AddEventViewModel model)
+        //{
+        //    await eventService.EditEventAsync(model);
+
+        //    return RedirectToAction("All", "Event");
         //}
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            
+            await patientService.RemovePatientAsync(id);
+
+            return RedirectToAction("AllPatients", "Dentist");
+        }
     }
 }

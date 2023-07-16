@@ -39,7 +39,7 @@ namespace DentalClinicSystem.Services
         public async Task<BookingViewModel> GetBookingViewModelAsync()
         {
             var treatments = await dbContext.Treatments
-                .Select(t => new TreatmentViemModel
+                .Select(t => new TreatmentViewModel
                 {
                     Id = t.Id,
                     Name = t.Name,

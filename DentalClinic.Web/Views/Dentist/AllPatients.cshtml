@@ -14,8 +14,9 @@
             <p class="mb-0"><span class="fw-bold">Phone Number: </span>@patient.PhoneNumber</p>
             <p class="mb-0"><span class="fw-bold">Gender: </span>@patient.Gender</p>
 
-            <button class="btn-primary" type="submit">Details</button>
-            <button class="btn-danger" type="submit">Delete</button>
+            <a asp-controller="Patient" asp-action="Details" asp-route-id="@patient.Id" class="btn btn-warning">View Details</a>
+            <a asp-controller="Patient" asp-action="AddAppointment" asp-route-id="@patient.Id" class=" btn btn-info">Add appointment</a>
+            <a asp-controller="Patient" asp-action="Delete" asp-route-id="@patient.Id" class="btn btn-danger">Delete</a>
         </div>
     }
 </div>

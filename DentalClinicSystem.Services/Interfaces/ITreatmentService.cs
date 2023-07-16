@@ -9,6 +9,6 @@ namespace DentalClinicSystem.Services.Interfaces
 {
     public interface ITreatmentService
     {
-        Task<IEnumerable<TreatmentViemModel>> AllTreatmentsAsync();
+        Task<IEnumerable<TreatmentViewModel>> AllTreatmentsAsync();
     }
 }

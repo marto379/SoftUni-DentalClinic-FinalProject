@@ -45,6 +45,7 @@ namespace DentalClinicSystem.Services
             return await dbContext.Patients
                 .Select(p => new AddPatientViewModel
                 {
+                    Id = p.Id.ToString(),
                     FirstName = p.FirstName,
                     LastName = p.LastName,
                     PhoneNumber = p.PhoneNumber,

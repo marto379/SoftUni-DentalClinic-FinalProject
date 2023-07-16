@@ -21,12 +21,12 @@ namespace DentalClinicSystem.Services
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<TreatmentViemModel>> AllTreatmentsAsync()
+        public async Task<IEnumerable<TreatmentViewModel>> AllTreatmentsAsync()
         {
-            IEnumerable<TreatmentViemModel> allTreatments = await dbContext
+            IEnumerable<TreatmentViewModel> allTreatments = await dbContext
                  .Treatments
                  .AsNoTracking()
-                 .Select(t => new TreatmentViemModel
+                 .Select(t => new TreatmentViewModel
                  {
                      Id = t.Id,
                      Name = t.Name

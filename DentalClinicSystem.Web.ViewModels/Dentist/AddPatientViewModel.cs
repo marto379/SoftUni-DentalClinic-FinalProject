@@ -9,6 +9,8 @@ namespace DentalClinicSystem.Web.ViewModels.Dentist
 {
     public class AddPatientViewModel
     {
+        public string Id { get; set; } = null!;
+
         [Required]
         public string FirstName { get; set; } = null!;
 
