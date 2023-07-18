@@ -29,7 +29,8 @@ namespace DentalClinicSystem.Web
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
             })
-                .AddEntityFrameworkStores<DentalClinicDbContext>();
+            .AddEntityFrameworkStores<DentalClinicDbContext>();
+            
 
             builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<IReservationService, ReservationService>();

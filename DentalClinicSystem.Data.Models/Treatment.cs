@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,12 @@ namespace DentalClinicSystem.Data.Models
 
         [MaxLength(EntityValidationConstants.descriptionMaxLength)]
         public string? Description { get; set; }
+
+        public Specialization Specialization { get; set; } = null!;
+
+        [ForeignKey(nameof(Specialization))]
+        [Required]
+        public int SpecializationId { get; set; }
 
         public ICollection<TreatmentAppointments> TreatmentAppointments { get; set; } = new List<TreatmentAppointments>();
     }

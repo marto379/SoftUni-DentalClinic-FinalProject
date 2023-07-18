@@ -47,7 +47,7 @@ namespace DentalClinicSystem.Web.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            ICollection<AddPatientViewModel> model = await dentistService.GetAllPatientAsync();
+            ICollection<AddPatientViewModel> model = await dentistService.GetAllPatientsByUserIdAsync(User.GetId());
 
             return View(model);
         }

@@ -11,6 +11,6 @@ namespace DentalClinicSystem.Services.Interfaces
     {
         Task<bool> IsDentistExist(string userId);
         Task AddPatientAsync(AddPatientViewModel model, string dentistId);
-        Task<ICollection<AddPatientViewModel>> GetAllPatientAsync();
+        Task<ICollection<AddPatientViewModel>> GetAllPatientsByUserIdAsync(string userId);
     }
 }

@@ -30,7 +30,8 @@ namespace DentalClinicSystem.Data.Configurations
                 Id = 1,
                 Name = "Whitening",
                 Price = 99.00m,
-                Description = "Super white teeth"
+                Description = "Super white teeth",
+                SpecializationId = 1,
             };
             treatments.Add(treatment);
 
@@ -39,7 +40,8 @@ namespace DentalClinicSystem.Data.Configurations
                 Id = 2,
                 Name = "Tooth Extraction",
                 Price = 79.99m,
-                Description = "Painless extraction"
+                Description = "Painless extraction",
+                SpecializationId = 2
             };
             treatments.Add(treatment);
 
@@ -48,7 +50,8 @@ namespace DentalClinicSystem.Data.Configurations
                 Id = 3,
                 Name = "Root canal treatment",
                 Price = 149.99m,
-                Description = "Dental procedure used to treat infection at the centre of a tooth"
+                Description = "Dental procedure used to treat infection at the centre of a tooth",
+                SpecializationId = 1
             };
             treatments.Add(treatment);
 

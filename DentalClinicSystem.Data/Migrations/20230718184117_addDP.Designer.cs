@@ -4,6 +4,7 @@ using DentalClinicSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalClinicSystem.Data.Migrations
 {
     [DbContext(typeof(DentalClinicDbContext))]
-    partial class DentalClinicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230718184117_addDP")]
+    partial class addDP
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,7 +160,7 @@ namespace DentalClinicSystem.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DentistId")
+                    b.Property<Guid>("DentistId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
@@ -337,7 +339,7 @@ namespace DentalClinicSystem.Data.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "96f67b93-e4eb-46aa-92fb-92f451cd905d",
+                            ConcurrencyStamp = "410e4bf4-f82b-4170-83b1-b598be837058",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -437,13 +439,13 @@ namespace DentalClinicSystem.Data.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d91a6fb4-2bfd-430c-8dcd-591d05e4bfdf",
+                            ConcurrencyStamp = "a9998001-9755-4468-80e2-2d81cfcf05f6",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAUKwIvTFRsu03wcMmiAypQHc960d5bPDqCbPPKUf3OYYCEJ3MvoUQceZQ2V0YjYSw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ2jeE5xA/a9W6QzM5LDe4u21FmIggdDIrovAS7se/1btMXItA3wMANEDLMkVPdKyw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e02cfb90-9acd-4499-aeb8-2efc69125df5",
+                            SecurityStamp = "cd0067be-5463-4725-ad3e-99f5ecddfd5b",
                             TwoFactorEnabled = false,
                             UserName = "admin@abv.bg"
                         });
@@ -596,7 +598,7 @@ namespace DentalClinicSystem.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("DentalClinicSystem.Data.Models.Patient", "Patient")
-                        .WithMany("DentistPatients")
+                        .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -619,9 +621,13 @@ namespace DentalClinicSystem.Data.Migrations
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Patient", b =>
                 {
-                    b.HasOne("DentalClinicSystem.Data.Models.Dentist", null)
+                    b.HasOne("DentalClinicSystem.Data.Models.Dentist", "Dentist")
                         .WithMany("Patients")
-                        .HasForeignKey("DentistId");
+                        .HasForeignKey("DentistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dentist");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Treatment", b =>
@@ -743,8 +749,6 @@ namespace DentalClinicSystem.Data.Migrations
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Patient", b =>
                 {
                     b.Navigation("Appointments");
-
-                    b.Navigation("DentistPatients");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Treatment", b =>

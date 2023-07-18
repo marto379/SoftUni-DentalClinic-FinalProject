@@ -33,12 +33,7 @@ namespace DentalClinicSystem.Data.Models
         [Required]
         public string PhoneNumber { get; set; } = null!;
 
-        [Required]
-        [ForeignKey(nameof(Dentist))]
-        public Guid DentistId { get; set; }
-
-        [Required]
-        public Dentist Dentist { get; set; } = null!;
+        public ICollection<DentistPatients> DentistPatients { get; set; } = new List<DentistPatients>();
 
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 

@@ -25,32 +25,53 @@ namespace DentalClinicSystem.Services
                 .Where(d => d.UserId == userId)
                 .FirstOrDefaultAsync();
 
-            var dentistId = dentist.Id;
-            
-            Patient patient = new Patient
+            if (dentist is null)
+            {
+                // TO DO, handle when does not exist
+                return;
+            }
+                
+            Patient patient = new()
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
-                Gender = model.Gender,
-                DentistId = dentistId
+                Gender = model.Gender
             };
 
             await dbContext.Patients.AddAsync(patient);
+            await dbContext.DentistPatients.AddAsync(new()
+            {
+                DentistId = dentist.Id,
+                PatientId = patient.Id,
+                IsDeleted = false
+            });
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<ICollection<AddPatientViewModel>> GetAllPatientAsync()
+        public async Task<ICollection<AddPatientViewModel>> GetAllPatientsByUserIdAsync(string userId)
         {
-            return await dbContext.Patients
+            var doctor = await dbContext.Dentists
+                .Include(d => d.DentistPatients)
+                .ThenInclude(dp => dp.Patient)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(d => d.UserId == userId);
+
+            if(doctor is null)
+            {
+                return new List<AddPatientViewModel>();
+            }
+
+            return doctor.DentistPatients
+                .Where(p => p.IsDeleted == false)
                 .Select(p => new AddPatientViewModel
                 {
                     Id = p.Id.ToString(),
-                    FirstName = p.FirstName,
-                    LastName = p.LastName,
-                    PhoneNumber = p.PhoneNumber,
-                    Gender = p.Gender
-                }).ToListAsync();
+                    FirstName = p.Patient.FirstName,
+                    LastName = p.Patient.LastName,
+                    PhoneNumber = p.Patient.PhoneNumber,
+                    Gender = p.Patient.Gender
+                }).ToList();
         }
 
         public async Task<bool> IsDentistExist(string userId)

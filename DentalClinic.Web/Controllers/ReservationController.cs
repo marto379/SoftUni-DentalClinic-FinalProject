@@ -28,11 +28,11 @@
         [HttpPost]
         public async Task<IActionResult> Booking(BookingViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("", "Invalid data!");
-                return View(model);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    ModelState.AddModelError("", "Invalid data!");
+            //    return View(model);
+            //}
             try
             {
 
@@ -48,7 +48,7 @@
             }
 
 
-            return RedirectToAction("Booking", "Reservation");
+            return RedirectToAction("All", "Patient");
         }
     }
 }

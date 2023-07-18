@@ -72,15 +72,14 @@ namespace DentalClinicSystem.Services
 
         public async Task RemovePatientAsync(string id)
         {
-            Patient? patient = await dbContext.Patients
+            var dp = await dbContext.DentistPatients
                 .FirstOrDefaultAsync(p => p.Id.ToString() == id);
 
-            if (patient != null)
+            if(dp is not null && dp.IsDeleted == false)
             {
-                 dbContext.Patients.Remove(patient);
+                dp.IsDeleted = true;
                 await dbContext.SaveChangesAsync();
             }
-
         }
     }
 }

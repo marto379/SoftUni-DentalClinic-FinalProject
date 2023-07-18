@@ -28,11 +28,16 @@
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;
 
-        [Required]
         public IdentityUser User { get; set; } = null!;
+
+        public Specialization Specialization { get; set; } = null!;
+
+        [ForeignKey(nameof(Specialization))]
+        [Required]
+        public int SpecializationId { get; set; }
 
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 
-        public ICollection<Patient> Patients { get; set; } = new List<Patient>();
+        public ICollection<DentistPatients> DentistPatients { get; set; } = new List<DentistPatients>();
     }
 }
