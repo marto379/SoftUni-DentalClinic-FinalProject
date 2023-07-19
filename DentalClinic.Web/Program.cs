@@ -29,16 +29,22 @@ namespace DentalClinicSystem.Web
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
             })
+             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<DentalClinicDbContext>();
-            
-            
+
+            builder.Services.AddControllersWithViews();
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/User/Login";
+                options.LogoutPath = "/User/Logout";
+            });
 
             builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IDentistService, DentistService>();
             builder.Services.AddScoped<ITreatmentService, TreatmentService>();
 
-            builder.Services.AddControllersWithViews();
+            
 
             WebApplication app = builder.Build();
 

@@ -16,11 +16,14 @@ namespace DentalClinicSystem.Web.Controllers
             this.patientService = patientService;
         }
 
-        // [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> All()
         {
 
             var model = await patientService.GetPatientAppointmentsAsync();
+            //if (!model.Any())
+            //{
+
+            //}
             return View(model);
         }
 
@@ -41,12 +44,6 @@ namespace DentalClinicSystem.Web.Controllers
         //}
 
 
-        public async Task<IActionResult> Delete(string id)
-        {
-
-            await patientService.RemovePatientAsync(id);
-
-            return RedirectToAction("AllPatients", "Dentist");
-        }
+        
     }
 }

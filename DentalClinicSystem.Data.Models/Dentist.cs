@@ -26,8 +26,9 @@
 
         [Required]
         [ForeignKey(nameof(User))]
-        public string UserId { get; set; } = null!;
+        public string UserId { get; set; }
 
+        [Required]
         public IdentityUser User { get; set; } = null!;
 
         public Specialization Specialization { get; set; } = null!;

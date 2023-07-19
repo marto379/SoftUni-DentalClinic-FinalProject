@@ -10,10 +10,12 @@ namespace DentalClinicSystem.Web.Controllers
     public class DentistController : Controller
     {
         IDentistService dentistService;
+        IPatientService patientService;
         public DentistController(
-            IDentistService dentistService)
+            IDentistService dentistService, IPatientService patientService)
         {
             this.dentistService = dentistService;
+            this.patientService = patientService;
         }
 
         [HttpGet]
@@ -50,6 +52,14 @@ namespace DentalClinicSystem.Web.Controllers
             ICollection<AddPatientViewModel> model = await dentistService.GetAllPatientsByUserIdAsync(User.GetId());
 
             return View(model);
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+
+            await patientService.RemovePatientAsync(id);
+
+            return RedirectToAction("AllPatients", "Dentist");
         }
     }
 }

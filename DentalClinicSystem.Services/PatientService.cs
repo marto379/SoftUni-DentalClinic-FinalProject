@@ -58,7 +58,7 @@ namespace DentalClinicSystem.Services
 
         public async Task<IEnumerable<BookingViewModel>> GetPatientAppointmentsAsync()
         {
-            return await dbContext.Appointments
+            var appointments = await dbContext.Appointments
                 .Select(a => new BookingViewModel
                 {
                     FirstName = a.FirstName,
@@ -68,6 +68,8 @@ namespace DentalClinicSystem.Services
                     Date = a.Date,
                     Treatment = a.Treatment.Name
                 }).ToListAsync();
+
+            return appointments;
         }
 
         public async Task RemovePatientAsync(string id)
@@ -75,7 +77,7 @@ namespace DentalClinicSystem.Services
             var dp = await dbContext.DentistPatients
                 .FirstOrDefaultAsync(p => p.Id.ToString() == id);
 
-            if(dp is not null && dp.IsDeleted == false)
+            if (dp is not null && dp.IsDeleted == false)
             {
                 dp.IsDeleted = true;
                 await dbContext.SaveChangesAsync();

@@ -30,6 +30,5 @@ namespace DentalClinicSystem.Data.Models
         [Required]
         public int SpecializationId { get; set; }
 
-        public ICollection<TreatmentAppointments> TreatmentAppointments { get; set; } = new List<TreatmentAppointments>();
     }
 }
