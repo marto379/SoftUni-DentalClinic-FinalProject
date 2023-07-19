@@ -31,6 +31,7 @@ namespace DentalClinicSystem.Web
             })
             .AddEntityFrameworkStores<DentalClinicDbContext>();
             
+            
 
             builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<IReservationService, ReservationService>();

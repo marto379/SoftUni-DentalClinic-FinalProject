@@ -2,6 +2,7 @@
 using DentalClinicSystem.Web.ViewModels.Dentist;
 using DentalClinicSystem.Web.ViewModels.Patient;
 using DentalClinicSystem.Web.ViewModels.Reservation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DentalClinicSystem.Web.Controllers
@@ -15,8 +16,10 @@ namespace DentalClinicSystem.Web.Controllers
             this.patientService = patientService;
         }
 
+        // [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> All()
         {
+
             var model = await patientService.GetPatientAppointmentsAsync();
             return View(model);
         }
@@ -37,9 +40,10 @@ namespace DentalClinicSystem.Web.Controllers
         //    return RedirectToAction("All", "Event");
         //}
 
+
         public async Task<IActionResult> Delete(string id)
         {
-            
+
             await patientService.RemovePatientAsync(id);
 
             return RedirectToAction("AllPatients", "Dentist");

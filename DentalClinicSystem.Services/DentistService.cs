@@ -51,18 +51,18 @@ namespace DentalClinicSystem.Services
 
         public async Task<ICollection<AddPatientViewModel>> GetAllPatientsByUserIdAsync(string userId)
         {
-            var doctor = await dbContext.Dentists
+            var dentist = await dbContext.Dentists
                 .Include(d => d.DentistPatients)
                 .ThenInclude(dp => dp.Patient)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(d => d.UserId == userId);
 
-            if(doctor is null)
+            if(dentist is null)
             {
                 return new List<AddPatientViewModel>();
             }
 
-            return doctor.DentistPatients
+            return dentist.DentistPatients
                 .Where(p => p.IsDeleted == false)
                 .Select(p => new AddPatientViewModel
                 {
