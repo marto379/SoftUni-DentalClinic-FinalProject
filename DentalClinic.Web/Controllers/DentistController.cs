@@ -1,6 +1,8 @@
 ﻿using DentalClinic.Web.Infrastructure.Extensions;
+using DentalClinicSystem.Data.Models;
 using DentalClinicSystem.Services.Interfaces;
 using DentalClinicSystem.Web.ViewModels.Dentist;
+using DentalClinicSystem.Web.ViewModels.Patient;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +13,13 @@ namespace DentalClinicSystem.Web.Controllers
     {
         IDentistService dentistService;
         IPatientService patientService;
+        ITreatmentService treatmentService;
         public DentistController(
-            IDentistService dentistService, IPatientService patientService)
+            IDentistService dentistService, IPatientService patientService, ITreatmentService treatmentService)
         {
             this.dentistService = dentistService;
             this.patientService = patientService;
+            this.treatmentService = treatmentService;
         }
 
         [HttpGet]
@@ -39,6 +43,23 @@ namespace DentalClinicSystem.Web.Controllers
             await this.dentistService.AddPatientAsync(model, dentistId);
 
             return RedirectToAction("AllPatients", "Dentist");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Dentist")]
+        public async Task<IActionResult> AddAppointment(string id)
+        {
+
+            Patient patient = await dentistService.GetPatientAsync(id);
+            var treatments = await treatmentService.AllTreatmentsAsync();
+
+            var model = new AddAppointmentViewModel()
+            {
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
+                Treatments = treatments
+            };
+            return View(model);
         }
 
         [HttpGet]

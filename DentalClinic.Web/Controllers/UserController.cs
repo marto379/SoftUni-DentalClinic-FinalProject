@@ -30,6 +30,7 @@ namespace DentalClinicSystem.Web.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> MakeAdmin(string email)
         {
+            
             var user = await _userManager.FindByNameAsync(email);
             if (user == null)
             {
@@ -40,6 +41,27 @@ namespace DentalClinicSystem.Web.Controllers
 
             return Ok(result);
                        
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> MakeDentist(string email)
+        {
+            var role = await _roleManager.RoleExistsAsync("Dentist");
+            if (!role)
+            {
+                return BadRequest("this role does not exist");
+            }
+
+            var user = await _userManager.FindByNameAsync(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.AddToRoleAsync(user, "Dentist");
+
+            return Ok(result);
+
         }
 
     }
