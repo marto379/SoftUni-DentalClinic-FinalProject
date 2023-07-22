@@ -6,17 +6,25 @@
 
 <h2>@ViewBag.Title</h2>
 <div class="card-body">
-    @foreach (var patient in Model)
+    @if (!Model.Any())
     {
-
-        <div class="list-group-item">
-            <h5 class="card-title mt-1 ">@patient.FirstName @patient.LastName</h5>
-            <p class="mb-0"><span class="fw-bold">Phone Number: </span>@patient.PhoneNumber</p>
-            <p class="mb-0"><span class="fw-bold">Gender: </span>@patient.Gender</p>
-
-            <a asp-controller="Patient" asp-action="Details" asp-route-id="@patient.Id" class="btn btn-warning">View Details</a>
-            <a asp-controller="Patient" asp-action="AddAppointment" asp-route-id="@patient.Id" class=" btn btn-info">Add appointment</a>
-            <a asp-controller="Patient" asp-action="Delete" asp-route-id="@patient.Id" class="btn btn-danger" onclick="return confirm('Are you sure')">Delete</a>
-        </div>
+        <div>Your patient list is empty!</div>
     }
+    else
+    {
+        @foreach (var patient in Model)
+        {
+
+            <div class="list-group-item">
+                <h5 class="card-title mt-1 ">@patient.FirstName @patient.LastName</h5>
+                <p class="mb-0"><span class="fw-bold">Phone Number: </span>@patient.PhoneNumber</p>
+                <p class="mb-0"><span class="fw-bold">Gender: </span>@patient.Gender</p>
+
+                <a asp-controller="Patient" asp-action="Details" asp-route-id="@patient.Id" class="btn btn-warning">View Details</a>
+                <a asp-controller="Patient" asp-action="AddAppointment" asp-route-id="@patient.Id" class=" btn btn-info">Add appointment</a>
+                <a asp-controller="Dentist" asp-action="Delete" asp-route-id="@patient.Id" class="btn btn-danger" onclick="return confirm('Are you sure')">Delete</a>
+            </div>
+        }
+    }
+
 </div>

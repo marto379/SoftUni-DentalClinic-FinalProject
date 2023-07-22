@@ -4,9 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace DentalClinicSystem.Web.Controllers
 {
     [AllowAnonymous]
-    public class Treatment : Controller
+    public class TreatmentController : Controller
     {
         public IActionResult Root()
+        {
+            return View();
+        }
+
+        public IActionResult Extraction()
+        {
+            return View();
+        }
+
+        public IActionResult Whitening()
         {
             return View();
         }
