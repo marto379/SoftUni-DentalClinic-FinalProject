@@ -74,7 +74,7 @@ namespace DentalClinicSystem.Services
                 }).ToList();
         }
 
-        public async Task<Patient> GetPatientAsync(string id)
+        public async Task<Patient?> GetPatientAsync(string id)
         {
             var patient = await dbContext.DentistPatients
                 .Where(dp => dp.Id.ToString() == id)

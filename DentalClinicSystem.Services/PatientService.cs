@@ -22,7 +22,7 @@ namespace DentalClinicSystem.Services
             this.dbContext = dbContext;
         }
 
-        public async Task<AddAppointmentViewModel> GetAddAppointmentAsync(string id)
+        public async Task<AddAppointmentViewModel> GetAddAppointmentAsync(string userId)
         {
             var treatements = await dbContext.Treatments
                 .Select(t => new TreatmentViewModel
@@ -31,12 +31,12 @@ namespace DentalClinicSystem.Services
                     Name = t.Name,
                 }).ToListAsync();
 
-            var currModel = await dbContext.Patients
-                .Where(p => p.Id.ToString() == id)
-                .FirstOrDefaultAsync();
+            //var currModel = await dbContext.Patients
+            //    .Where(p => p.Id.ToString() == userId)
+            //    .FirstOrDefaultAsync();
 
             var returnModel = await dbContext.Patients
-                .Where(p => p.Id.ToString() == id)
+                .Where(p => p.Id.ToString() == userId)
                 .Select(p => new AddAppointmentViewModel
                 {
                     FirstName = p.FirstName,
@@ -56,9 +56,10 @@ namespace DentalClinicSystem.Services
             return model;
         }
 
-        public async Task<IEnumerable<BookingViewModel>> GetPatientAppointmentsAsync()
+        public async Task<IEnumerable<BookingViewModel>> GetPatientAppointmentsAsync(string userId)
         {
             var appointments = await dbContext.Appointments
+                .Where(a => a.UserId == userId)
                 .Select(a => new BookingViewModel
                 {
                     FirstName = a.FirstName,
@@ -66,6 +67,7 @@ namespace DentalClinicSystem.Services
                     PhoneNumber = a.User.PhoneNumber,
                     PreferredHour = a.PreferredHour,
                     Date = a.Date,
+                    UserId = a.UserId,
                     Treatment = a.Treatment.Name
                 }).ToListAsync();
 

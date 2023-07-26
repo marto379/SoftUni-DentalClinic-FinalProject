@@ -11,7 +11,7 @@ namespace DentalClinicSystem.Services.Interfaces
     public interface IPatientService
     {
         Task<BookingViewModel> GetAddPatientModelAsync();
-        Task<IEnumerable<BookingViewModel>> GetPatientAppointmentsAsync();
+        Task<IEnumerable<BookingViewModel>> GetPatientAppointmentsAsync(string id);
         Task<AddAppointmentViewModel> GetAddAppointmentAsync(string id);
         Task RemovePatientAsync(string id);
     }

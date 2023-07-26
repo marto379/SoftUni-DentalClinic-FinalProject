@@ -16,7 +16,9 @@ namespace DentalClinicSystem.Web.ViewModels.Reservation
 
         public DateTime PreferredHour { get; set; }
 
-        public DateTime Date { get; set; } 
+        public DateTime Date { get; set; }
+
+        public string UserId { get; set; } = null!;
 
         public int TreatmentId { get; set; }
 

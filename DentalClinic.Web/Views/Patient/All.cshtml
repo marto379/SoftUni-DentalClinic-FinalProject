@@ -4,8 +4,10 @@
 }
 
 <div class="text-left row">
+
     @foreach (var appoinment in Model)
     {
+       //<a asp-route-id="@appoinment.us"
         <div class="card-body">
             <h5 class="card-title mt-1 ">@appoinment.FirstName @appoinment.LastName</h5>
             <p class="mb-0"><span class="fw-bold">Date: </span>@appoinment.Date</p>

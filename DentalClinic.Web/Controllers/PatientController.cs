@@ -1,4 +1,5 @@
-﻿using DentalClinicSystem.Services.Interfaces;
+﻿using DentalClinic.Web.Infrastructure.Extensions;
+using DentalClinicSystem.Services.Interfaces;
 using DentalClinicSystem.Web.ViewModels.Dentist;
 using DentalClinicSystem.Web.ViewModels.Patient;
 using DentalClinicSystem.Web.ViewModels.Reservation;
@@ -18,8 +19,8 @@ namespace DentalClinicSystem.Web.Controllers
 
         public async Task<IActionResult> All()
         {
-
-            var model = await patientService.GetPatientAppointmentsAsync();
+            var userId = User.GetId();
+            var model = await patientService.GetPatientAppointmentsAsync(userId);
             //if (!model.Any())
             //{
 
