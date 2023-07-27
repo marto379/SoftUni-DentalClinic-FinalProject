@@ -28,8 +28,9 @@ namespace DentalClinicSystem.Services
                 LastName = model.LastName,
                 UserId = userId,
                 PreferredHour = DateTime.Parse(model.PreferredHour.ToString("t")),
-                Date = DateTime.Parse(model.Date.ToString("d")),
+                Date = model.Date,
                 TreatmentId = model.TreatmentId,
+                DentistId = Guid.Parse(model.DentistId)
             };
 
             await dbContext.Appointments.AddAsync(appointmentToAdd);
@@ -45,8 +46,17 @@ namespace DentalClinicSystem.Services
                     Name = t.Name,
                 }).ToListAsync();
 
+            var dentists = await dbContext.Dentists
+                .Select(d => new DentistViewModel
+                {
+                    Id = d.Id.ToString(),
+                    DentistFirstName = d.FirstName,
+                    DentistLastName = d.LastName
+                }).ToListAsync();
+
             var model = new BookingViewModel()
             {
+                Dentists = dentists,
                 Treatments = treatments
             };
 

@@ -68,7 +68,9 @@ namespace DentalClinicSystem.Services
                     PreferredHour = a.PreferredHour,
                     Date = a.Date,
                     UserId = a.UserId,
-                    Treatment = a.Treatment.Name
+                    DentistId = a.DentistId.ToString(),
+                    Treatment = a.Treatment.Name,
+                    Dentist = $"{ a.Dentist.FirstName } {a.Dentist.LastName}"
                 }).ToListAsync();
 
             return appointments;

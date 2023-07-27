@@ -30,7 +30,7 @@
                         <li class="nav-item">
                             @if (!User?.Identity?.IsAuthenticated ?? false)
                             {
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Book Now!</a>
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Make an appointment!</a>
                             }
                             else if (User?.IsInRole("Admin") ?? false)
                             {

@@ -31,6 +31,12 @@ namespace DentalClinicSystem.Data.Models
 
         public IdentityUser User { get; set; } = null!;
 
+        [ForeignKey(nameof(Dentist))]
+        [Required]
+        public Guid DentistId { get; set; }
+        [Required]
+        public Dentist Dentist { get; set; } = null!;
+
         [Required]
         [ForeignKey(nameof(Treatment))]
         public int TreatmentId { get; set; }

@@ -17,10 +17,12 @@
 
         public async Task<IActionResult> Booking()
         {
-            BookingViewModel viewModel = new BookingViewModel()
-            {
-                Treatments = await treatmentService.AllTreatmentsAsync()
-            };
+            //BookingViewModel viewModel = new BookingViewModel()
+            //{
+            //    Treatments = await treatmentService.AllTreatmentsAsync()
+            //};
+
+            var viewModel = await reservationService.GetBookingViewModelAsync();
 
             return View(viewModel);
         }
