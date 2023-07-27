@@ -65,12 +65,13 @@ namespace DentalClinicSystem.Services
                     FirstName = a.FirstName,
                     LastName = a.LastName,
                     PhoneNumber = a.User.PhoneNumber,
-                    PreferredHour = a.PreferredHour,
+                    PreferredHour = a.PreferredHour.ToString(),
                     Date = a.Date,
                     UserId = a.UserId,
                     DentistId = a.DentistId.ToString(),
                     Treatment = a.Treatment.Name,
-                    Dentist = $"{ a.Dentist.FirstName } {a.Dentist.LastName}"
+                    Dentist = $"{ a.Dentist.FirstName } {a.Dentist.LastName}",
+                    Status = a.Date > DateTime.UtcNow ? "coming up" : "done"
                 }).ToListAsync();
 
             return appointments;

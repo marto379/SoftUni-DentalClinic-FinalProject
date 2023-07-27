@@ -44,25 +44,25 @@
                         </li>
                         @if (!User.IsInRole("Admin") && !User.IsInRole("Dentist"))
                         {
-                             <li>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Treatments
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Whitening">Whitening</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Extraction">Tooth extraction</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Root">Root canal treatment</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Prosthodontic">Prosthodontic treatment</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Orthodontics">Orthodontics</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Cleaning">Teeth cleaning</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Caries">Caries treatment</a></li>
+                            <li>
+                                <div class="btn-group">
+                                    <button type="button" class="btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Treatments
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Whitening">Whitening</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Extraction">Tooth extraction</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Root">Root canal treatment</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Prosthodontic">Prosthodontic treatment</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Orthodontics">Orthodontics</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Cleaning">Teeth cleaning</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Treatment" asp-action="Caries">Caries treatment</a></li>
 
-                                </ul>
-                            </div>
-                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         }
-                       
+
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
                             string userId = User.GetId();
@@ -73,7 +73,7 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Dentist" asp-action="AllPatients">My patients</a>
                                 </li>
                             }
-                           
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="All">My appointments</a>
                             </li>
@@ -96,7 +96,6 @@
             @if (DateTime.UtcNow.Year != ReleaseYear)
             {
                 @Html.Raw($" - {DateTime.UtcNow.Year}")
-                ;
             }
         </div>
     </footer>

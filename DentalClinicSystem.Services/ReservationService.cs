@@ -27,7 +27,7 @@ namespace DentalClinicSystem.Services
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 UserId = userId,
-                PreferredHour = DateTime.Parse(model.PreferredHour.ToString("t")),
+                PreferredHour = DateTime.Parse(model.PreferredHour.ToString()),
                 Date = model.Date,
                 TreatmentId = model.TreatmentId,
                 DentistId = Guid.Parse(model.DentistId)
@@ -56,11 +56,18 @@ namespace DentalClinicSystem.Services
 
             var model = new BookingViewModel()
             {
+                Date = DateTime.UtcNow,
+                PreferredHour = RoundUp(DateTime.Now, TimeSpan.FromMinutes(30)).ToString("hh:mm"),
                 Dentists = dentists,
                 Treatments = treatments
             };
 
             return model;
+        }
+
+        DateTime RoundUp(DateTime dt, TimeSpan d)
+        {
+            return new DateTime((dt.Ticks + d.Ticks - 1) / d.Ticks * d.Ticks, dt.Kind);
         }
     }
 }
