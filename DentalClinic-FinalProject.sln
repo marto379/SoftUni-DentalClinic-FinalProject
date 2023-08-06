@@ -21,7 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{03
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentalClinicSystem.Services", "DentalClinicSystem.Services\DentalClinicSystem.Services.csproj", "{36A7FEE5-E478-4851-A255-B49094DF0EE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentalClinic.Web.Infrastructure", "DentalClinic.Web.Infrastructure\DentalClinic.Web.Infrastructure.csproj", "{5361BC40-7D96-4069-873F-BB8C76D0F681}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentalClinic.Web.Infrastructure", "DentalClinic.Web.Infrastructure\DentalClinic.Web.Infrastructure.csproj", "{5361BC40-7D96-4069-873F-BB8C76D0F681}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentalClinicAppUnitTests", "DentalClinicAppUnitTests\DentalClinicAppUnitTests.csproj", "{1DC70DEF-04E1-4484-AB2C-D2672276CD80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E4608F3A-9383-4C00-817A-75BDD415FC3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,10 @@ Global
 		{5361BC40-7D96-4069-873F-BB8C76D0F681}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5361BC40-7D96-4069-873F-BB8C76D0F681}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5361BC40-7D96-4069-873F-BB8C76D0F681}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DC70DEF-04E1-4484-AB2C-D2672276CD80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DC70DEF-04E1-4484-AB2C-D2672276CD80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DC70DEF-04E1-4484-AB2C-D2672276CD80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DC70DEF-04E1-4484-AB2C-D2672276CD80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +76,7 @@ Global
 		{48D69560-AF35-484B-A9CC-11F62E7F4E42} = {98A11DBD-11B8-4D59-A5A0-851AA69B730F}
 		{36A7FEE5-E478-4851-A255-B49094DF0EE1} = {038EC444-FCB8-466E-A149-9230E4983114}
 		{5361BC40-7D96-4069-873F-BB8C76D0F681} = {98A11DBD-11B8-4D59-A5A0-851AA69B730F}
+		{1DC70DEF-04E1-4484-AB2C-D2672276CD80} = {E4608F3A-9383-4C00-817A-75BDD415FC3D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FB9D01A6-76AE-4F2C-9159-115C756C72AE}
