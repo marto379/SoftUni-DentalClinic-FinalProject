@@ -14,6 +14,9 @@ namespace DentalClinicSystem.Web.ViewModels.Patient
         public string FirstName { get; set; } = null!;
 
         public string LastName { get; set; } = null!;
+
+        public string PatientId { get; set; } = null!;
+
         public DateTime PreferredHour { get; set; }
 
         public DateTime Date { get; set; }

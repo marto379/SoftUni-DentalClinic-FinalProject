@@ -3,7 +3,10 @@
     using DentalClinic.Web.Infrastructure.Extensions;
     using DentalClinicSystem.Services.Interfaces;
     using DentalClinicSystem.Web.ViewModels.Reservation;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+
+    [Authorize]
     public class ReservationController : BaseController
     {
         IReservationService reservationService;
@@ -15,13 +18,9 @@
         }
 
 
+        [HttpGet]
         public async Task<IActionResult> Booking()
         {
-            //BookingViewModel viewModel = new BookingViewModel()
-            //{
-            //    Treatments = await treatmentService.AllTreatmentsAsync()
-            //};
-
             var viewModel = await reservationService.GetBookingViewModelAsync();
 
             return View(viewModel);

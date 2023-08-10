@@ -1,0 +1,10 @@
+﻿@using DentalClinicSystem.Web.ViewModels.Patient
+@model ICollection<AddAppointmentViewModel>
+
+@foreach (var patient in Model)
+{
+    <h2>@patient.FirstName</h2>
+    <h2>@patient.LastName</h2>
+}
+
+

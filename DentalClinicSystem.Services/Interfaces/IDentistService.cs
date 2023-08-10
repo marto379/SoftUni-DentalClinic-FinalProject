@@ -1,5 +1,6 @@
 ﻿using DentalClinicSystem.Data.Models;
 using DentalClinicSystem.Web.ViewModels.Dentist;
+using DentalClinicSystem.Web.ViewModels.Patient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace DentalClinicSystem.Services.Interfaces
         Task AddPatientAsync(AddPatientViewModel model, string dentistId);
         Task<ICollection<AddPatientViewModel>> GetAllPatientsByUserIdAsync(string userId);
         Task<Patient> GetPatientAsync(string id);
+        Task AddPatientAppointmentAsync(AddAppointmentViewModel model, string patientId);
+        Task<IEnumerable<AddAppointmentViewModel>> GetPatientAppointmentsByIdAsync(string id);
     }
 }

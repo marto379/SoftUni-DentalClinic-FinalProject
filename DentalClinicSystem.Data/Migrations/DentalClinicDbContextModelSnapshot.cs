@@ -17,18 +17,16 @@ namespace DentalClinicSystem.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Appointment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -44,9 +42,6 @@ namespace DentalClinicSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("PatientId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("PreferredHour")
                         .HasColumnType("datetime2");
 
@@ -60,8 +55,6 @@ namespace DentalClinicSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DentistId");
-
-                    b.HasIndex("PatientId");
 
                     b.HasIndex("TreatmentId");
 
@@ -179,6 +172,24 @@ namespace DentalClinicSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("DentalClinicSystem.Data.Models.PatientAppointment", b =>
+                {
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("PatientId", "AppointmentId");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.ToTable("PatientsAppointments");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Specialization", b =>
@@ -514,10 +525,6 @@ namespace DentalClinicSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DentalClinicSystem.Data.Models.Patient", null)
-                        .WithMany("Appointments")
-                        .HasForeignKey("PatientId");
-
                     b.HasOne("DentalClinicSystem.Data.Models.Treatment", "Treatment")
                         .WithMany()
                         .HasForeignKey("TreatmentId")
@@ -582,6 +589,25 @@ namespace DentalClinicSystem.Data.Migrations
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("DentalClinicSystem.Data.Models.PatientAppointment", b =>
+                {
+                    b.HasOne("DentalClinicSystem.Data.Models.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DentalClinicSystem.Data.Models.Patient", "Patient")
+                        .WithMany("PatientsAppointments")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
 
                     b.Navigation("Patient");
                 });
@@ -666,9 +692,9 @@ namespace DentalClinicSystem.Data.Migrations
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Patient", b =>
                 {
-                    b.Navigation("Appointments");
-
                     b.Navigation("DentistPatients");
+
+                    b.Navigation("PatientsAppointments");
                 });
 #pragma warning restore 612, 618
         }

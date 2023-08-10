@@ -62,6 +62,15 @@ namespace DentalClinicSystem.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Dentist")]
+        public async Task<IActionResult> AddAppointment(AddAppointmentViewModel model, string id)
+        {
+
+            await dentistService.AddPatientAppointmentAsync(model, id);
+            return RedirectToAction("AllPatients", "Dentist");
+        }
+
         [HttpGet]
         public async Task<IActionResult> AllPatients()
         {
@@ -72,6 +81,12 @@ namespace DentalClinicSystem.Web.Controllers
             }
             ICollection<AddPatientViewModel> model = await dentistService.GetAllPatientsByUserIdAsync(User.GetId());
 
+            return View(model);
+        }
+
+        public async Task<IActionResult> PatientAppointments(string id)
+        {
+            IEnumerable<AddAppointmentViewModel> model = await dentistService.GetPatientAppointmentsByIdAsync(id);
             return View(model);
         }
 

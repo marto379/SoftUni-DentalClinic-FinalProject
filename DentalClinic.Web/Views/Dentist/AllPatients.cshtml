@@ -20,7 +20,7 @@
                 <p class="mb-0"><span class="fw-bold">Phone Number: </span>@patient.PhoneNumber</p>
                 <p class="mb-0"><span class="fw-bold">Gender: </span>@patient.Gender</p>
 
-                <a asp-controller="Patient" asp-action="Details" asp-route-id="@patient.Id" class="btn btn-warning">View Details</a>
+                <a asp-controller="Dentist" asp-action="PatientAppointments" asp-route-id="@patient.Id" class="btn btn-warning">View Appointments</a>
                 <a asp-controller="Dentist" asp-action="AddAppointment" asp-route-id="@patient.Id" class=" btn btn-info">Add appointment</a>
                 <a asp-controller="Dentist" asp-action="Delete" asp-route-id="@patient.Id" class="btn btn-danger" onclick="return confirm('Are you sure')">Delete</a>
             </div>

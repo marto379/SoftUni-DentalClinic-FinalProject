@@ -44,7 +44,12 @@ namespace DentalClinicSystem.Web.Controllers
         //    return RedirectToAction("All", "Event");
         //}
 
+        public async Task<IActionResult> Appointments(string id)
+        {
+            var model = await patientService.GetPatientAppointmentsAsync(id);
+            return View(model);
+        }
 
-        
+
     }
 }

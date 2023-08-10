@@ -11,6 +11,7 @@
         public DentalClinicDbContext(DbContextOptions<DentalClinicDbContext> options)
             : base(options)
         {
+            
         }
 
         public DbSet<Dentist> Dentists { get; set; } = null!;
@@ -23,6 +24,8 @@
 
         
         public DbSet<DentistPatients> DentistPatients { get; set; }
+
+        public DbSet<PatientAppointment> PatientsAppointments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

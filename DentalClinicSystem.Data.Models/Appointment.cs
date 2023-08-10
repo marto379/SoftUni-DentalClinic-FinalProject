@@ -11,8 +11,12 @@ namespace DentalClinicSystem.Data.Models
 {
     public class Appointment
     {
+        public Appointment()
+        {
+            Id = Guid.NewGuid();
+        }
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string FirstName { get; set; } = null!;
@@ -45,5 +49,6 @@ namespace DentalClinicSystem.Data.Models
         public Treatment Treatment { get; set; } = null!;
 
         
+       
     }
 }

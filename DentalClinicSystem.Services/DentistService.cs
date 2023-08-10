@@ -2,6 +2,7 @@
 using DentalClinicSystem.Data.Models;
 using DentalClinicSystem.Services.Interfaces;
 using DentalClinicSystem.Web.ViewModels.Dentist;
+using DentalClinicSystem.Web.ViewModels.Patient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,37 @@ namespace DentalClinicSystem.Services
             this.dbContext = dbContext;
         }
 
+        public async Task AddPatientAppointmentAsync(AddAppointmentViewModel model, string dpId)
+        {
+
+            Patient? patient = await GetPatientAsync(dpId);
+            Dentist? dentist = await dbContext.DentistPatients
+                .Where(dp => dp.Id.ToString() == dpId)
+                .Select(dp => dp.Dentist)
+                .FirstOrDefaultAsync();
+
+            
+            Appointment appointment = new()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Date = model.Date,
+                PreferredHour = model.PreferredHour,
+                TreatmentId = model.TreatmentId,
+                UserId = model.PatientId,
+                DentistId = dentist.Id
+            };
+
+            await dbContext.Appointments.AddAsync(appointment);
+            await dbContext.PatientsAppointments.AddAsync(new()
+            {
+                PatientId = patient.Id,
+                AppointmentId = appointment.Id
+            });
+            await dbContext.SaveChangesAsync();
+        }
+
         public async Task AddPatientAsync(AddPatientViewModel model, string userId)
         {
             var dentist = await dbContext.Dentists
@@ -30,9 +62,10 @@ namespace DentalClinicSystem.Services
                 // TO DO, handle when does not exist
                 return;
             }
-                
+
             Patient patient = new()
             {
+                Id = Guid.NewGuid(),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
@@ -57,7 +90,7 @@ namespace DentalClinicSystem.Services
                 .AsNoTracking()
                 .FirstOrDefaultAsync(d => d.UserId == userId);
 
-            if(dentist is null)
+            if (dentist is null)
             {
                 return new List<AddPatientViewModel>();
             }
@@ -72,6 +105,27 @@ namespace DentalClinicSystem.Services
                     PhoneNumber = p.Patient.PhoneNumber,
                     Gender = p.Patient.Gender
                 }).ToList();
+        }
+
+        public async Task<IEnumerable<AddAppointmentViewModel>> GetPatientAppointmentsByIdAsync(string id)
+        {
+
+            var CurrDentPatient = await dbContext.DentistPatients
+                .Where(dp => dp.Id == Guid.Parse(id))
+                .FirstOrDefaultAsync();
+
+            var patientId = CurrDentPatient?.Patient.Id.ToString();
+
+            return await dbContext.DentistPatients
+                .Where(dp => dp.Id == Guid.Parse(id))
+                .Select(p => new AddAppointmentViewModel
+                {
+                    FirstName = p.Patient.FirstName,
+                    LastName = p.Patient.LastName,
+
+                }).ToListAsync();
+
+
         }
 
         public async Task<Patient?> GetPatientAsync(string id)
@@ -89,7 +143,7 @@ namespace DentalClinicSystem.Services
                 .Dentists
                 .AnyAsync(d => d.UserId == userId);
 
-            return result; 
+            return result;
         }
     }
 }

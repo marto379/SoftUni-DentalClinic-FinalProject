@@ -12,30 +12,28 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalClinicSystem.Data.Migrations
 {
     [DbContext(typeof(DentalClinicDbContext))]
-    [Migration("20230718175909_seedNewAdmin")]
-    partial class seedNewAdmin
+    [Migration("20230810144732_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Appointment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("DentistId")
+                    b.Property<Guid>("DentistId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
@@ -45,9 +43,6 @@ namespace DentalClinicSystem.Data.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("PatientId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("PreferredHour")
                         .HasColumnType("datetime2");
@@ -62,8 +57,6 @@ namespace DentalClinicSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DentistId");
-
-                    b.HasIndex("PatientId");
 
                     b.HasIndex("TreatmentId");
 
@@ -92,15 +85,44 @@ namespace DentalClinicSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SpecializationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SpecializationId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Dentists");
+                });
+
+            modelBuilder.Entity("DentalClinicSystem.Data.Models.DentistPatients", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DentistId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DentistId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("DentistPatients");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Invoice", b =>
@@ -131,9 +153,6 @@ namespace DentalClinicSystem.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DentistId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -142,9 +161,6 @@ namespace DentalClinicSystem.Data.Migrations
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -157,9 +173,54 @@ namespace DentalClinicSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DentistId");
-
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("DentalClinicSystem.Data.Models.PatientAppointment", b =>
+                {
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("PatientId", "AppointmentId");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.ToTable("PatientsAppointments");
+                });
+
+            modelBuilder.Entity("DentalClinicSystem.Data.Models.Specialization", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Specialization");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "prosthetic"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "surgeon"
+                        });
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Treatment", b =>
@@ -186,9 +247,14 @@ namespace DentalClinicSystem.Data.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("SpecializationId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("InvoiceId");
+
+                    b.HasIndex("SpecializationId");
 
                     b.ToTable("Treatments");
 
@@ -196,54 +262,59 @@ namespace DentalClinicSystem.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Super white teeth",
+                            Description = "Cosmetic teeth whitening uses hydrogen peroxide to gently bleach out stains from the enamel. This is a highly concentrated form that is much stronger than what you can get at the drugstore. This solution is applied as a gel or paste to the teeth.",
                             Name = "Whitening",
-                            Price = 99.00m
+                            Price = 99.00m,
+                            SpecializationId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Painless extraction",
+                            Description = "Tooth extraction refers to the complete removal of one or more teeth from the mouth. This is a procedure that is usually performed by a dental surgeon. Milk teeth may be removed from a child's mouth without intervention from the dentist as they loosen as a matter of course to give way to permanent teeth.",
                             Name = "Tooth Extraction",
-                            Price = 79.99m
+                            Price = 79.99m,
+                            SpecializationId = 2
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Dental procedure used to treat infection at the centre of a tooth",
+                            Description = "Root canal treatment is a dental procedure that relieves pain caused by an infected or abscessed tooth. During the root canal process, the inflamed pulp is removed. The surfaces inside the tooth are then cleaned and disinfected, and a filling is placed to seal the space.",
                             Name = "Root canal treatment",
-                            Price = 149.99m
+                            Price = 149.99m,
+                            SpecializationId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "The most common and simplest treatment to combat caries is dental filling, which consists of cleaning the affected area until a cavity is formed, in order to eliminate the tissues that have been damaged by bacterial acidity. Once this process has been carried out, the cavity must be filled to return the tooth to its original shape.",
+                            Name = "Caries treatment",
+                            Price = 149.99m,
+                            SpecializationId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Teeth cleaning (also known as prophylaxis, literally a preventive treatment of a disease) is a procedure for the removal of tartar (mineralized plaque) that may develop even with careful brushing and flossing, especially in areas that are difficult to reach in routine toothbrushing.",
+                            Name = "Teeth cleaning",
+                            Price = 149.99m,
+                            SpecializationId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Prosthodontic treatments include veneers, crowns, bridges, dental implants and dentures. Treatment can be for a single tooth at a time but it can also be on a more comprehensive scale where it involves several and sometimes all teeth.",
+                            Name = "Prosthodontic treatment",
+                            Price = 149.99m,
+                            SpecializationId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Orthodontics is a dental specialty focused on aligning your bite and straightening your teeth. You might need to see an orthodontist if you have crooked, overlapped, twisted or gapped teeth. Common orthodontic treatments include traditional braces, clear aligners and removable retainers.",
+                            Name = "Orthodontics",
+                            Price = 149.99m,
+                            SpecializationId = 1
                         });
-                });
-
-            modelBuilder.Entity("DentalClinicSystem.Data.Models.TreatmentAppointments", b =>
-                {
-                    b.Property<int>("TreatmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TreatmentId", "AppointmentId");
-
-                    b.HasIndex("AppointmentId");
-
-                    b.ToTable("TreatmentAppointments");
-                });
-
-            modelBuilder.Entity("DentalClinicSystem.Data.Models.UserAppointment", b =>
-                {
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PatientId", "AppointmentId");
-
-                    b.HasIndex("AppointmentId");
-
-                    b.ToTable("UsersAppointments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -271,15 +342,6 @@ namespace DentalClinicSystem.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "3d41637a-ed54-41eb-8636-03d35bc3943e",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -370,22 +432,6 @@ namespace DentalClinicSystem.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "14d04cb9-5e7e-4faf-8cf3-38d27c50ad68",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "ADMIN@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHkQEU/FXC8AaVajnKaz4UaAul0AO2r170CvBEB/NntuTSkEk+zBlptfsac98h9AqA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "d5fe2e4d-58cf-42a9-a573-8c06c3a41ef2",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@abv.bg"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -450,13 +496,6 @@ namespace DentalClinicSystem.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9",
-                            RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7210"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -482,13 +521,11 @@ namespace DentalClinicSystem.Data.Migrations
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Appointment", b =>
                 {
-                    b.HasOne("DentalClinicSystem.Data.Models.Dentist", null)
+                    b.HasOne("DentalClinicSystem.Data.Models.Dentist", "Dentist")
                         .WithMany("Appointments")
-                        .HasForeignKey("DentistId");
-
-                    b.HasOne("DentalClinicSystem.Data.Models.Patient", null)
-                        .WithMany("Appointments")
-                        .HasForeignKey("PatientId");
+                        .HasForeignKey("DentistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DentalClinicSystem.Data.Models.Treatment", "Treatment")
                         .WithMany()
@@ -502,6 +539,8 @@ namespace DentalClinicSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Dentist");
+
                     b.Navigation("Treatment");
 
                     b.Navigation("User");
@@ -509,13 +548,40 @@ namespace DentalClinicSystem.Data.Migrations
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Dentist", b =>
                 {
+                    b.HasOne("DentalClinicSystem.Data.Models.Specialization", "Specialization")
+                        .WithMany()
+                        .HasForeignKey("SpecializationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Specialization");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DentalClinicSystem.Data.Models.DentistPatients", b =>
+                {
+                    b.HasOne("DentalClinicSystem.Data.Models.Dentist", "Dentist")
+                        .WithMany("DentistPatients")
+                        .HasForeignKey("DentistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DentalClinicSystem.Data.Models.Patient", "Patient")
+                        .WithMany("DentistPatients")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dentist");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Invoice", b =>
@@ -529,15 +595,23 @@ namespace DentalClinicSystem.Data.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("DentalClinicSystem.Data.Models.Patient", b =>
+            modelBuilder.Entity("DentalClinicSystem.Data.Models.PatientAppointment", b =>
                 {
-                    b.HasOne("DentalClinicSystem.Data.Models.Dentist", "Dentist")
-                        .WithMany("Patients")
-                        .HasForeignKey("DentistId")
+                    b.HasOne("DentalClinicSystem.Data.Models.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Dentist");
+                    b.HasOne("DentalClinicSystem.Data.Models.Patient", "Patient")
+                        .WithMany("PatientsAppointments")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Treatment", b =>
@@ -545,44 +619,14 @@ namespace DentalClinicSystem.Data.Migrations
                     b.HasOne("DentalClinicSystem.Data.Models.Invoice", null)
                         .WithMany("Treatments")
                         .HasForeignKey("InvoiceId");
-                });
 
-            modelBuilder.Entity("DentalClinicSystem.Data.Models.TreatmentAppointments", b =>
-                {
-                    b.HasOne("DentalClinicSystem.Data.Models.Appointment", "Appointment")
+                    b.HasOne("DentalClinicSystem.Data.Models.Specialization", "Specialization")
                         .WithMany()
-                        .HasForeignKey("AppointmentId")
+                        .HasForeignKey("SpecializationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DentalClinicSystem.Data.Models.Treatment", "Treatment")
-                        .WithMany("TreatmentAppointments")
-                        .HasForeignKey("TreatmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("Treatment");
-                });
-
-            modelBuilder.Entity("DentalClinicSystem.Data.Models.UserAppointment", b =>
-                {
-                    b.HasOne("DentalClinicSystem.Data.Models.Appointment", "Appointment")
-                        .WithMany()
-                        .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("Patient");
+                    b.Navigation("Specialization");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -640,7 +684,7 @@ namespace DentalClinicSystem.Data.Migrations
                 {
                     b.Navigation("Appointments");
 
-                    b.Navigation("Patients");
+                    b.Navigation("DentistPatients");
                 });
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Invoice", b =>
@@ -650,12 +694,9 @@ namespace DentalClinicSystem.Data.Migrations
 
             modelBuilder.Entity("DentalClinicSystem.Data.Models.Patient", b =>
                 {
-                    b.Navigation("Appointments");
-                });
+                    b.Navigation("DentistPatients");
 
-            modelBuilder.Entity("DentalClinicSystem.Data.Models.Treatment", b =>
-                {
-                    b.Navigation("TreatmentAppointments");
+                    b.Navigation("PatientsAppointments");
                 });
 #pragma warning restore 612, 618
         }

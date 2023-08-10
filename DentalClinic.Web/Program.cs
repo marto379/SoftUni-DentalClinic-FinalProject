@@ -35,7 +35,7 @@ namespace DentalClinicSystem.Web
             builder.Services.AddControllersWithViews();
             builder.Services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/User/Login";
+                options.LoginPath = "/Identity/Account/Login";
                 options.LogoutPath = "/User/Logout";
             });
 

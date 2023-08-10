@@ -35,7 +35,7 @@ namespace DentalClinicSystem.Data.Models
 
         public ICollection<DentistPatients> DentistPatients { get; set; } = new List<DentistPatients>();
 
-        public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+        public ICollection<PatientAppointment> PatientsAppointments { get; set; } = new List<PatientAppointment>();
 
     }
 }
