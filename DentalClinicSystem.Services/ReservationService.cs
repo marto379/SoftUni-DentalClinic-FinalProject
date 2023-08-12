@@ -19,14 +19,14 @@ namespace DentalClinicSystem.Services
             this.dbContext = dbContext;
         }
 
-        public async Task AddReservationAsync(BookingViewModel model, string userId)
+        public async Task AddReservationAsync(BookingViewModel model, string patientId)
         {
            
             Appointment appointmentToAdd = new Appointment()
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                UserId = userId,
+                PatientId = Guid.Parse(patientId),
                 PreferredHour = DateTime.Parse(model.PreferredHour.ToString()),
                 Date = model.Date,
                 TreatmentId = model.TreatmentId,

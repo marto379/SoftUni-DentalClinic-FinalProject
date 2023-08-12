@@ -34,7 +34,11 @@
                         <input asp-for="@Model.Gender" class="form-control" aria-required="true" />
                         <span asp-validation-for="Gender" class="text-danger"></span>
                     </div>
-                    
+                     <div class="mb-3">
+                        <label asp-for="@Model.PersonalId" class="form-label-add-edit">Personal Identification Number</label>
+                        <input asp-for="@Model.PersonalId" class="form-control" aria-required="true" />
+                        <span asp-validation-for="PersonalId" class="text-danger"></span>
+                    </div>
                     
 
                     <div class="mb-3">
@@ -46,7 +50,7 @@
             </div>
         </div>
     </div>
-    />
+    
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

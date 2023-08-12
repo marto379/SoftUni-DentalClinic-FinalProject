@@ -56,18 +56,18 @@ namespace DentalClinicSystem.Services
             return model;
         }
 
-        public async Task<IEnumerable<BookingViewModel>> GetPatientAppointmentsAsync(string userId)
+        public async Task<IEnumerable<BookingViewModel>> GetPatientAppointmentsAsync(string patientId)
         {
             var appointments = await dbContext.Appointments
-                .Where(a => a.UserId == userId)
+                .Where(a => a.PatientId.ToString() == patientId)
                 .Select(a => new BookingViewModel
                 {
                     FirstName = a.FirstName,
                     LastName = a.LastName,
-                    PhoneNumber = a.User.PhoneNumber,
+                    PhoneNumber = a.Patient.PhoneNumber,
                     PreferredHour = a.PreferredHour.ToString(),
                     Date = a.Date,
-                    UserId = a.UserId,
+                    UserId = a.PatientId.ToString(),
                     DentistId = a.DentistId.ToString(),
                     Treatment = a.Treatment.Name,
                     Dentist = $"{ a.Dentist.FirstName } {a.Dentist.LastName}",

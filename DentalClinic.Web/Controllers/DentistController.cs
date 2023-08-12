@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DentalClinicSystem.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Dentist, Admin")]
     public class DentistController : Controller
     {
         IDentistService dentistService;
@@ -46,7 +46,6 @@ namespace DentalClinicSystem.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Dentist")]
         public async Task<IActionResult> AddAppointment(string id)
         {
 
@@ -57,28 +56,25 @@ namespace DentalClinicSystem.Web.Controllers
             {
                 FirstName = patient.FirstName,
                 LastName = patient.LastName,
-                Treatments = treatments
+                Treatments = treatments,
+                Date = DateTime.UtcNow,
+                PreferredHour = DateTime.Parse(DateTime.Now.ToString("hh:mm"))
             };
             return View(model);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Dentist")]
         public async Task<IActionResult> AddAppointment(AddAppointmentViewModel model, string id)
         {
 
             await dentistService.AddPatientAppointmentAsync(model, id);
-            return RedirectToAction("AllPatients", "Dentist");
+            return RedirectToAction("PatientAppointments", "Dentist", new { id = model.Id });
         }
 
         [HttpGet]
         public async Task<IActionResult> AllPatients()
         {
-            bool idDentist = await dentistService.IsDentistExist(User.GetId());
-            if (!idDentist)
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            
             ICollection<AddPatientViewModel> model = await dentistService.GetAllPatientsByUserIdAsync(User.GetId());
 
             return View(model);
@@ -86,7 +82,7 @@ namespace DentalClinicSystem.Web.Controllers
 
         public async Task<IActionResult> PatientAppointments(string id)
         {
-            IEnumerable<AddAppointmentViewModel> model = await dentistService.GetPatientAppointmentsByIdAsync(id);
+            IEnumerable<AppointmentPatientViewModel> model = await dentistService.GetPatientAppointmentsByIdAsync(id);
             return View(model);
         }
 

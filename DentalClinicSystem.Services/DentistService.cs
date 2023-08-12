@@ -24,21 +24,18 @@ namespace DentalClinicSystem.Services
         {
 
             Patient? patient = await GetPatientAsync(dpId);
-            Dentist? dentist = await dbContext.DentistPatients
-                .Where(dp => dp.Id.ToString() == dpId)
-                .Select(dp => dp.Dentist)
-                .FirstOrDefaultAsync();
+            Dentist? dentist = await GetDentistAsync(dpId);
 
             
             Appointment appointment = new()
             {
-                Id = Guid.NewGuid(),
+                //Id = Guid.NewGuid(),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Date = model.Date,
                 PreferredHour = model.PreferredHour,
                 TreatmentId = model.TreatmentId,
-                UserId = model.PatientId,
+                PatientId = patient.Id,
                 DentistId = dentist.Id
             };
 
@@ -69,7 +66,8 @@ namespace DentalClinicSystem.Services
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
-                Gender = model.Gender
+                Gender = model.Gender,
+                PersonalId = model.PersonalId
             };
 
             await dbContext.Patients.AddAsync(patient);
@@ -95,7 +93,7 @@ namespace DentalClinicSystem.Services
                 return new List<AddPatientViewModel>();
             }
 
-            return dentist.DentistPatients
+            return  dentist.DentistPatients
                 .Where(p => p.IsDeleted == false)
                 .Select(p => new AddPatientViewModel
                 {
@@ -103,29 +101,33 @@ namespace DentalClinicSystem.Services
                     FirstName = p.Patient.FirstName,
                     LastName = p.Patient.LastName,
                     PhoneNumber = p.Patient.PhoneNumber,
-                    Gender = p.Patient.Gender
+                    Gender = p.Patient.Gender,
+                    PersonalId = p.Patient.PersonalId
                 }).ToList();
         }
 
-        public async Task<IEnumerable<AddAppointmentViewModel>> GetPatientAppointmentsByIdAsync(string id)
+        public async Task<IEnumerable<AppointmentPatientViewModel>> GetPatientAppointmentsByIdAsync(string id)
         {
 
-            var CurrDentPatient = await dbContext.DentistPatients
-                .Where(dp => dp.Id == Guid.Parse(id))
-                .FirstOrDefaultAsync();
+            //var CurrDentPatient = await dbContext.DentistPatients
+            //    .Where(dp => dp.Id == Guid.Parse(id))
+            //    .FirstOrDefaultAsync();
 
-            var patientId = CurrDentPatient?.Patient.Id.ToString();
+            var patient = await GetPatientAsync(id);
 
-            return await dbContext.DentistPatients
-                .Where(dp => dp.Id == Guid.Parse(id))
-                .Select(p => new AddAppointmentViewModel
+            var result = await dbContext.PatientsAppointments
+                .Where(pa => pa.PatientId == patient.Id)
+                .Select(pa => new AppointmentPatientViewModel
                 {
-                    FirstName = p.Patient.FirstName,
-                    LastName = p.Patient.LastName,
+                    FirstName = pa.Patient.FirstName,
+                    LastName = pa.Patient.LastName,
+                    Treatment = pa.Appointment.Treatment.Name,
+                    Date = pa.Appointment.Date.ToString("yyyy-MM-dd"),
+                    Hour = pa.Appointment.PreferredHour.ToString("H:mm")
 
                 }).ToListAsync();
 
-
+            return result;
         }
 
         public async Task<Patient?> GetPatientAsync(string id)
@@ -135,6 +137,15 @@ namespace DentalClinicSystem.Services
                 .Select(db => db.Patient)
                 .FirstOrDefaultAsync();
             return patient;
+        }
+
+        public async Task<Dentist?> GetDentistAsync(string id)
+        {
+            var dentist = await dbContext.DentistPatients
+                .Where(dp => dp.Id.ToString() == id)
+                .Select(db => db.Dentist)
+                .FirstOrDefaultAsync();
+            return dentist;
         }
 
         public async Task<bool> IsDentistExist(string userId)

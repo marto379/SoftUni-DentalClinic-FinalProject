@@ -28,14 +28,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            
+
                             @if (User?.IsInRole("Admin") ?? false)
                             {
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Create">CreateDentist</a>
                             }
                             else if (User.IsInRole("Dentist"))
                             {
-                                
+
                             }
                             else
                             {
@@ -43,6 +43,35 @@
                             }
 
                         </li>
+
+                        @if (User?.Identity?.IsAuthenticated ?? false)
+                        {
+                            string userId = User.GetId();
+                            bool isUserAdentist = await dentistService.IsDentistExist(userId);
+                            if (isUserAdentist)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Dentist" asp-action="AllPatients">My patients</a>
+                                </li>
+                            }
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="All">My appointments</a>
+                            </li>
+
+
+                        }
+                        @if (User?.Identity?.IsAuthenticated ?? false)
+                        {
+                            string userId = User.GetId();
+                            bool isUserAdentist = await dentistService.IsDentistExist(userId);
+                            if (isUserAdentist)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-action="AddPatient" asp-controller="Dentist">Add Patient</a>
+                                </li>
+                            }
+                        }
                         @if (!User.IsInRole("Admin") && !User.IsInRole("Dentist"))
                         {
                             <li>
@@ -64,21 +93,6 @@
                             </li>
                         }
 
-                        @if (User?.Identity?.IsAuthenticated ?? false)
-                        {
-                            string userId = User.GetId();
-                            bool isUserAdentist = await dentistService.IsDentistExist(userId);
-                            if (isUserAdentist)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Dentist" asp-action="AllPatients">My patients</a>
-                                </li>
-                            }
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="All">My appointments</a>
-                            </li>
-                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

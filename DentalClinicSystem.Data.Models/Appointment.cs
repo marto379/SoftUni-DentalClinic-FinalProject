@@ -30,10 +30,11 @@ namespace DentalClinicSystem.Data.Models
         [Required]
         public DateTime PreferredHour { get; set; }
 
-        [ForeignKey(nameof(User))]
-        public string UserId { get; set; } = null!;
+        [ForeignKey(nameof(Patient))]
+        public Guid PatientId { get; set; } 
 
-        public IdentityUser User { get; set; } = null!;
+        public Patient Patient { get; set; } = null!;
+
 
         [ForeignKey(nameof(Dentist))]
         [Required]

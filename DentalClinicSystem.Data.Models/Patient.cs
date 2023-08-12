@@ -33,6 +33,11 @@ namespace DentalClinicSystem.Data.Models
         [Required]
         public string PhoneNumber { get; set; } = null!;
 
+        [Required]
+        [MinLength(10)]
+        [MaxLength(10)]
+        public string PersonalId { get; set; } = null!;
+
         public ICollection<DentistPatients> DentistPatients { get; set; } = new List<DentistPatients>();
 
         public ICollection<PatientAppointment> PatientsAppointments { get; set; } = new List<PatientAppointment>();

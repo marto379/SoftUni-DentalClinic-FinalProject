@@ -19,6 +19,7 @@
                 <h5 class="card-title mt-1 ">@patient.FirstName @patient.LastName</h5>
                 <p class="mb-0"><span class="fw-bold">Phone Number: </span>@patient.PhoneNumber</p>
                 <p class="mb-0"><span class="fw-bold">Gender: </span>@patient.Gender</p>
+                <p class="mb-0"><span class="fw-bold">Personal Id: </span>@patient.PersonalId</p>
 
                 <a asp-controller="Dentist" asp-action="PatientAppointments" asp-route-id="@patient.Id" class="btn btn-warning">View Appointments</a>
                 <a asp-controller="Dentist" asp-action="AddAppointment" asp-route-id="@patient.Id" class=" btn btn-info">Add appointment</a>

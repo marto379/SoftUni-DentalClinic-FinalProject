@@ -22,5 +22,9 @@ namespace DentalClinicSystem.Web.ViewModels.Dentist
 
         [Required]
         public string Gender { get; set; } = null!;
+
+        [MaxLength(10, ErrorMessage = "Personal Id is invalid number")]
+        [MinLength(10, ErrorMessage = "Personal Id is invalid number")]
+        public string PersonalId { get; set; } = null!;
     }
 }

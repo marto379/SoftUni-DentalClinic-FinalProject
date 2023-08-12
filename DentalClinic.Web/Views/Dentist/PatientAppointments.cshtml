@@ -1,9 +1,31 @@
 ﻿@using DentalClinicSystem.Web.ViewModels.Patient
-@model IEnumerable<AddAppointmentViewModel>
+@model IEnumerable<AppointmentPatientViewModel>
 
-    @foreach (var appointment in Model)
-{
-    <h2>@appointment.FirstName</h2>
-    <h2>@appointment.LastName</h2>
-    <h2>@appointment.TreatmentId</h2>
+@{
+    ViewBag.Title = "Appointments";
 }
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+@foreach (var patient in Model)
+{
+    <div class="row">
+        <div class="card w-100">
+            <div class="card-body">
+                <p class="mb-0"><span class="fw-bold">Name: </span>@patient.FirstName @patient.LastName</p>
+                <p class="mb-0"><span class="fw-bold">Treatment: </span>@patient.Treatment</p>
+                <p class="mb-0"><span class="fw-bold">Date: </span>@patient.Date</p>
+                <p class="mb-0"><span class="fw-bold">Time: </span>@patient.Hour</p>
+
+            </div>
+
+        </div>
+    </div>
+}
+<a asp-controller="Dentist" asp-action="AllPatients" class="btn btn-info mb-2">Back to All Patients</a>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
