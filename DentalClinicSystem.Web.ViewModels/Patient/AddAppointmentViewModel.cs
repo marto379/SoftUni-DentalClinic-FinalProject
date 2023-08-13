@@ -23,6 +23,8 @@ namespace DentalClinicSystem.Web.ViewModels.Patient
 
         public int TreatmentId { get; set; }
 
+        public string Treatment { get; set; }
+
         public IEnumerable<TreatmentViewModel> Treatments { get; set; } = new List<TreatmentViewModel>();
 
     }

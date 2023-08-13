@@ -156,5 +156,26 @@ namespace DentalClinicSystem.Services
 
             return result;
         }
+
+        public async Task<IEnumerable<AddAppointmentViewModel>> GetDentistAppointmentsAsync(string id)
+        {
+            var dentistId = await dbContext.Dentists
+                .Where(d => d.UserId == id)
+                .Select(d => d.Id)
+                .FirstOrDefaultAsync();
+
+            return await dbContext.Appointments
+                .Where(a => a.DentistId == dentistId)
+                .OrderByDescending(a => a.Date)
+                .Select(a => new AddAppointmentViewModel
+                {
+                    FirstName = a.FirstName,
+                    LastName = a.LastName,
+                    PreferredHour = a.PreferredHour,
+                    Date = a.Date,
+                    Treatment = a.Treatment.Name,
+                })
+                .ToListAsync();
+        }
     }
 }

@@ -18,5 +18,7 @@ namespace DentalClinicSystem.Services.Interfaces
         Task<Dentist?> GetDentistAsync(string id);
         Task AddPatientAppointmentAsync(AddAppointmentViewModel model, string patientId);
         Task<IEnumerable<AppointmentPatientViewModel>> GetPatientAppointmentsByIdAsync(string id);
+
+        Task<IEnumerable<AddAppointmentViewModel>> GetDentistAppointmentsAsync(string id);
     }
 }

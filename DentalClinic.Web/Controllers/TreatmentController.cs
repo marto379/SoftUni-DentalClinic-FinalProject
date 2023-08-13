@@ -20,5 +20,25 @@ namespace DentalClinicSystem.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult Prosthodontic()
+        {
+            return View();
+        }
+
+        public IActionResult Orthodontics()
+        {
+            return View();
+        }
+
+        public IActionResult Cleaning()
+        {
+            return View();
+        }
+
+        public IActionResult Caries()
+        {
+            return View();
+        }
     }
 }

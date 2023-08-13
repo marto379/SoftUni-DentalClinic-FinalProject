@@ -1,0 +1,17 @@
+﻿@using DentalClinicSystem.Web.ViewModels.Patient
+@model IEnumerable<AddAppointmentViewModel>
+@{
+    ViewBag.Title = "All Appointments";
+}
+
+@foreach (var appointment in Model)
+{
+
+    <div class="list-group-item">
+        <h5 class="card-title mt-1 ">@appointment.FirstName @appointment.LastName</h5>
+        <p class="mb-0"><span class="fw-bold">Date: </span>@appointment.Date.ToShortDateString()</p>
+        <p class="mb-0"><span class="fw-bold">Hour: </span>@appointment.PreferredHour.ToShortTimeString()</p>
+        <p class="mb-0"><span class="fw-bold">Treatment: </span>@appointment.Treatment</p>
+
+    </div>
+}

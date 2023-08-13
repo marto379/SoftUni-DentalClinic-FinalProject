@@ -5,6 +5,7 @@ using DentalClinicSystem.Web.ViewModels.Dentist;
 using DentalClinicSystem.Web.ViewModels.Patient;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static DentalClinicSystem.Common.NotificationMessagesConstants;
 
 namespace DentalClinicSystem.Web.Controllers
 {
@@ -31,13 +32,27 @@ namespace DentalClinicSystem.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var model = new AddPatientViewModel();
+            var model = new AddPatientViewModel()
+            {
+                Id = Guid.NewGuid().ToString()
+            };
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPatient(AddPatientViewModel model)
+        public async Task<IActionResult> AddPatient(AddPatientViewModel model, string id)
         {
+            
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                string errosMessage = error.ErrorMessage;
+            }
+            if (!ModelState.IsValid)
+            {
+                TempData[ErrorMessage] = "Invalid data input";
+                return View(model);
+            }
             var dentistId = User.GetId();
 
             await this.dentistService.AddPatientAsync(model, dentistId);
@@ -83,6 +98,13 @@ namespace DentalClinicSystem.Web.Controllers
         public async Task<IActionResult> PatientAppointments(string id)
         {
             IEnumerable<AppointmentPatientViewModel> model = await dentistService.GetPatientAppointmentsByIdAsync(id);
+            return View(model);
+        }
+
+        public async Task<IActionResult> AllAppointments()
+        {
+            var dentistId = User.GetId();
+            var model = await dentistService.GetDentistAppointmentsAsync(dentistId);
             return View(model);
         }
 
