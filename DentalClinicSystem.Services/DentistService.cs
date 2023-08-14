@@ -67,7 +67,9 @@ namespace DentalClinicSystem.Services
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
                 Gender = model.Gender,
-                PersonalId = model.PersonalId
+                PersonalId = model.PersonalId,
+                ImageUrl = model.ImageUrl,
+                Email = model.Email
             };
 
             await dbContext.Patients.AddAsync(patient);
@@ -80,7 +82,7 @@ namespace DentalClinicSystem.Services
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<ICollection<AddPatientViewModel>> GetAllPatientsByUserIdAsync(string userId)
+        public async Task<ICollection<PatientViewModel>> GetAllPatientsByUserIdAsync(string userId)
         {
             var dentist = await dbContext.Dentists
                 .Include(d => d.DentistPatients)
@@ -90,12 +92,12 @@ namespace DentalClinicSystem.Services
 
             if (dentist is null)
             {
-                return new List<AddPatientViewModel>();
+                return new List<PatientViewModel>();
             }
 
             return  dentist.DentistPatients
                 .Where(p => p.IsDeleted == false)
-                .Select(p => new AddPatientViewModel
+                .Select(p => new PatientViewModel
                 {
                     Id = p.Id.ToString(),
                     FirstName = p.Patient.FirstName,
@@ -148,7 +150,7 @@ namespace DentalClinicSystem.Services
             return dentist;
         }
 
-        public async Task<bool> IsDentistExist(string userId)
+        public async Task<bool> IsUserADentis(string userId)
         {
             bool result = await dbContext
                 .Dentists

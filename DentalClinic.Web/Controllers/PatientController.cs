@@ -50,6 +50,12 @@ namespace DentalClinicSystem.Web.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> PatientProfile(string id)
+        {
+            PatientViewModel model = await patientService.GetUserAsync(id);
+            return View(model);
+        }
+
 
     }
 }

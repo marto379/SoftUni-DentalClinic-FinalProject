@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace DentalClinicSystem.Web.ViewModels.Dentist
 {
-    public class AddPatientViewModel
+    public class PatientViewModel
     {
-        //public string Id { get; set; } = null!;
+        public string Id { get; set; }
 
-        [Required]
         public string FirstName { get; set; } = null!;
 
         [Required]

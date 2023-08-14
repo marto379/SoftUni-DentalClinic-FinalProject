@@ -11,9 +11,9 @@ namespace DentalClinicSystem.Services.Interfaces
 {
     public interface IDentistService
     {
-        Task<bool> IsDentistExist(string userId);
+        Task<bool> IsUserADentis(string userId);
         Task AddPatientAsync(AddPatientViewModel model, string dentistId);
-        Task<ICollection<AddPatientViewModel>> GetAllPatientsByUserIdAsync(string userId);
+        Task<ICollection<PatientViewModel>> GetAllPatientsByUserIdAsync(string userId);
         Task<Patient> GetPatientAsync(string id);
         Task<Dentist?> GetDentistAsync(string id);
         Task AddPatientAppointmentAsync(AddAppointmentViewModel model, string patientId);

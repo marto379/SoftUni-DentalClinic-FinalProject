@@ -2,16 +2,16 @@
 @model IEnumerable<AppointmentPatientViewModel>
 
 @{
-    ViewBag.Title = "Appointments";
+    ViewBag.Title = $"Appointments";
 }
 
 
-<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-start">@ViewBag.Title</h2>
 <hr />
 @foreach (var patient in Model)
 {
     <div class="row">
-        <div class="card w-100">
+        <div class="card w-50">
             <div class="card-body">
                 <p class="mb-0"><span class="fw-bold">Name: </span>@patient.FirstName @patient.LastName</p>
                 <p class="mb-0"><span class="fw-bold">Treatment: </span>@patient.Treatment</p>

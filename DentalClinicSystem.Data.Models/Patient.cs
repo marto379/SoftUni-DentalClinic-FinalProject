@@ -33,6 +33,10 @@ namespace DentalClinicSystem.Data.Models
         [Required]
         public string PhoneNumber { get; set; } = null!;
 
+        public string Email { get; set; }
+
+        public string ImageUrl { get; set; }
+
         [Required]
         [MinLength(10)]
         [MaxLength(10)]

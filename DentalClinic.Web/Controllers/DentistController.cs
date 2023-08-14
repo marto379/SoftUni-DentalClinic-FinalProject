@@ -26,23 +26,21 @@ namespace DentalClinicSystem.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> AddPatient()
         {
-            bool idDentist = await dentistService.IsDentistExist(User.GetId());
+            bool idDentist = await dentistService.IsUserADentis(User.GetId());
             if (!idDentist)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            var model = new AddPatientViewModel()
-            {
-                Id = Guid.NewGuid().ToString()
-            };
+            var model = new AddPatientViewModel();
+            
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPatient(AddPatientViewModel model, string id)
+        public async Task<IActionResult> AddPatient(AddPatientViewModel model)
         {
-            
+
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             foreach (var error in errors)
             {
@@ -50,14 +48,25 @@ namespace DentalClinicSystem.Web.Controllers
             }
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Invalid data input";
                 return View(model);
             }
-            var dentistId = User.GetId();
+            try
+            {
+                var userId = User.GetId();
 
-            await this.dentistService.AddPatientAsync(model, dentistId);
+                var result = await dentistService.IsUserADentis(userId);
+                if (!result) { return RedirectToAction("Index", "Home"); }
 
-            return RedirectToAction("AllPatients", "Dentist");
+                await this.dentistService.AddPatientAsync(model, userId);
+                this.TempData[SuccessMessage] = "Successfully added patient!";
+
+                return RedirectToAction("AllPatients", "Dentist");
+            }
+            catch (Exception)
+            {
+                throw new InvalidOperationException("Error");
+            }
+
         }
 
         [HttpGet]
@@ -89,8 +98,8 @@ namespace DentalClinicSystem.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> AllPatients()
         {
-            
-            ICollection<AddPatientViewModel> model = await dentistService.GetAllPatientsByUserIdAsync(User.GetId());
+
+            ICollection<PatientViewModel> model = await dentistService.GetAllPatientsByUserIdAsync(User.GetId());
 
             return View(model);
         }

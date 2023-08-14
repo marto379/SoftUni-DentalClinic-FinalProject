@@ -77,6 +77,25 @@ namespace DentalClinicSystem.Services
             return appointments;
         }
 
+        public async Task<PatientViewModel> GetUserAsync(string id)
+        {
+           PatientViewModel? patient = await dbContext.DentistPatients
+                .Where(dp => dp.Id.ToString() == id)
+                .Select(dp => new PatientViewModel
+                {
+                    FirstName = dp.Patient.FirstName,
+                    LastName = dp.Patient.LastName,
+                    PhoneNumber = dp.Patient.PhoneNumber,
+                    Gender = dp.Patient.Gender,
+                    PersonalId = dp.Patient.PersonalId,
+                    Email = dp.Patient.Email,
+                    ImageUrl = dp.Patient.ImageUrl
+                })
+                .FirstOrDefaultAsync();
+
+            return patient;
+        }
+
         public async Task RemovePatientAsync(string id)
         {
             var dp = await dbContext.DentistPatients

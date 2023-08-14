@@ -1,4 +1,5 @@
-﻿using DentalClinicSystem.Web.ViewModels.Patient;
+﻿using DentalClinicSystem.Web.ViewModels.Dentist;
+using DentalClinicSystem.Web.ViewModels.Patient;
 using DentalClinicSystem.Web.ViewModels.Reservation;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,6 @@ namespace DentalClinicSystem.Services.Interfaces
         Task<IEnumerable<BookingViewModel>> GetPatientAppointmentsAsync(string id);
         Task<AddAppointmentViewModel> GetAddAppointmentAsync(string id);
         Task RemovePatientAsync(string id);
-        
+        Task<PatientViewModel> GetUserAsync(string id);
     }
 }
