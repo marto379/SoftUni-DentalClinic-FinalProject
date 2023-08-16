@@ -12,22 +12,30 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DentalClinic.Web.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            margin: 0;
+            background-color: #a0d7bd;
+        }
+    </style>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <partial name="_NotificationPartial"/>
+    <partial name="_NotificationPartial" />
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-secondary border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+
             <div class="container-fluid">
+
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Dental Clinic</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="btn-group navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -44,7 +52,7 @@
                             }
                             else
                             {
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="Booking">Make an appointment!</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="Booking">Book Now!</a>
                             }
 
                         </li>
@@ -59,10 +67,13 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Dentist" asp-action="AllPatients">My patients</a>
                                 </li>
                             }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="UserAppointments">My appointments</a>
+                                </li>
+                            }
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Dentist" asp-action="AllAppointments">My appointments</a>
-                            </li>
 
 
                         }
@@ -81,7 +92,7 @@
                         {
                             <li>
                                 <div class="btn-group">
-                                    <button type="button" class="btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         Treatments
                                     </button>
                                     <ul class="dropdown-menu">
@@ -110,7 +121,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-dark bg-secondary text-light">
+    <footer class="border-top footer text-dark text-light">
         <div class="container">
             &copy; DentalClinic @ReleaseYear
             @if (DateTime.UtcNow.Year != ReleaseYear)
@@ -119,7 +130,7 @@
             }
         </div>
     </footer>
-   
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

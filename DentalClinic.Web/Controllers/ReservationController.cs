@@ -21,19 +21,15 @@
         [HttpGet]
         public async Task<IActionResult> Booking()
         {
-            var viewModel = await reservationService.GetBookingViewModelAsync();
+            OnlineBookingViewModel viewModel = await reservationService.GetBookingViewModelAsync();
 
             return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Booking(BookingViewModel model)
+        public async Task<IActionResult> Booking(OnlineBookingViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    ModelState.AddModelError("", "Invalid data!");
-            //    return View(model);
-            //}
+            
             try
             {
 
@@ -49,7 +45,16 @@
             }
 
 
-            return RedirectToAction("All", "Patient");
+            return RedirectToAction("UserAppointments", "Reservation");
+        }
+
+        public async Task<IActionResult> UserAppointments()
+        {
+            var userId = User.GetId();
+
+            ICollection<OnlineAppointmentsViewModel> model = await reservationService.GetUserAppointmentsAsync(userId);
+
+            return View(model);
         }
     }
 }

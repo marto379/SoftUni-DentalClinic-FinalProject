@@ -19,25 +19,54 @@ namespace DentalClinicSystem.Services
             this.dbContext = dbContext;
         }
 
-        public async Task AddReservationAsync(BookingViewModel model, string patientId)
+        public async Task AddReservationAsync(OnlineBookingViewModel model, string patientId)
         {
-           
-            Appointment appointmentToAdd = new Appointment()
+            var patientExist = await dbContext.OnlinePatients
+                .AnyAsync(p => p.OnlineUserId == patientId);
+                
+
+            OnlinePatientAppointments OPappointment = new();
+
+            
+            if (patientExist == false)
             {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                PatientId = Guid.Parse(patientId),
-                PreferredHour = DateTime.Parse(model.PreferredHour.ToString()),
+                OnlinePatient patient = new OnlinePatient()
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    OnlineUserId = patientId,
+                    PhoneNumber = model.PhoneNumber
+                };
+                OPappointment.OnlinePatientId = patient.Id;
+                await dbContext.OnlinePatients.AddAsync(patient);
+            }
+            else
+            {
+                var patient = await dbContext.OnlinePatients
+                    .Where(p => p.OnlineUserId == patientId)
+                    .FirstOrDefaultAsync();
+
+                OPappointment.OnlinePatientId = patient.Id;
+            }
+
+            OnlineAppointment appointmentToAdd = new OnlineAppointment()
+            {
+
+                OnlinePatientId = OPappointment.OnlinePatientId,
                 Date = model.Date,
-                TreatmentId = model.TreatmentId,
-                DentistId = Guid.Parse(model.DentistId)
+                Hour = DateTime.Parse(model.Hour),
+                TreatmentId = model.TreatmentId
             };
 
-            await dbContext.Appointments.AddAsync(appointmentToAdd);
+            OPappointment.OnlineAppointmentId = appointmentToAdd.Id;
+
+            await dbContext.OnlineAppointments.AddAsync(appointmentToAdd);
+            await dbContext.OnlinePatientAppointments.AddAsync(OPappointment);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<BookingViewModel> GetBookingViewModelAsync()
+        public async Task<OnlineBookingViewModel> GetBookingViewModelAsync()
         {
             var treatments = await dbContext.Treatments
                 .Select(t => new TreatmentViewModel
@@ -54,15 +83,29 @@ namespace DentalClinicSystem.Services
                     DentistLastName = d.LastName
                 }).ToListAsync();
 
-            var model = new BookingViewModel()
+            var model = new OnlineBookingViewModel()
             {
                 Date = DateTime.UtcNow,
-                PreferredHour = RoundUp(DateTime.Now, TimeSpan.FromMinutes(30)).ToString("hh:mm"),
+                Hour = RoundUp(DateTime.Now, TimeSpan.FromMinutes(30)).ToString("hh:mm"),
                 Dentists = dentists,
                 Treatments = treatments
             };
 
             return model;
+        }
+
+        public async Task<ICollection<OnlineAppointmentsViewModel>> GetUserAppointmentsAsync(string userId)
+        {
+            return await dbContext.OnlinePatientAppointments
+                .Where(op => op.OnlinePatient.OnlineUserId == userId)
+                .Select(op => new OnlineAppointmentsViewModel
+                {
+                    FirstName = op.OnlinePatient.FirstName,
+                    LastName = op.OnlinePatient.LastName,
+                    Date = op.OnlineAppointment.Date,
+                    Hour = op.OnlineAppointment.Hour.ToString("H:mm"),
+                    Treatment = op.OnlineAppointment.Treatment.Name
+                }).ToListAsync();
         }
 
         DateTime RoundUp(DateTime dt, TimeSpan d)

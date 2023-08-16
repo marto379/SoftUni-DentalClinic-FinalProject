@@ -27,6 +27,12 @@
 
         public DbSet<PatientAppointment> PatientsAppointments { get; set; }
 
+        public DbSet<OnlinePatient> OnlinePatients { get; set; }
+
+        public DbSet<OnlineAppointment> OnlineAppointments { get; set; }
+
+        public DbSet<OnlinePatientAppointments> OnlinePatientAppointments { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

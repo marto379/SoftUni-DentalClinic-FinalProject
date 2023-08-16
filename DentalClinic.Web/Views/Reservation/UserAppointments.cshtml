@@ -1,0 +1,14 @@
+﻿@model ICollection<OnlineAppointmentsViewModel>
+
+
+@foreach (var app in Model)
+{
+    <div class="list-group-item mb-2 w-50">
+        <h5 class="card-title mt-1 ">@app.FirstName @app.LastName</h5>
+        <p class="mb-0"><span class="fw-bold">Date: </span>@app.Date.ToShortDateString()</p>
+        <p class="mb-0"><span class="fw-bold">Hour: </span>@app.Hour</p>
+        <p class="mb-0"><span class="fw-bold">Treatment: </span>@app.Treatment</p>
+
+    </div>
+}
+

@@ -9,7 +9,8 @@ namespace DentalClinicSystem.Services.Interfaces
 {
     public interface IReservationService
     {
-        Task<BookingViewModel> GetBookingViewModelAsync();
-        Task AddReservationAsync(BookingViewModel model, string userId);
+        Task<OnlineBookingViewModel> GetBookingViewModelAsync();
+        Task AddReservationAsync(OnlineBookingViewModel model, string userId);
+        Task<ICollection<OnlineAppointmentsViewModel>> GetUserAppointmentsAsync(string userId);
     }
 }

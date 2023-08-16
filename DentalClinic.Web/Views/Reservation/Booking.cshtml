@@ -1,15 +1,10 @@
-﻿@model BookingViewModel
+﻿@model OnlineBookingViewModel
 
 
 @{
     ViewBag.Title = "Add your information";
 }
-    <style>
-        body {
-            background-image: url("https://img.freepik.com/premium-photo/reminder-calendar-visiting-dentist-dental-appointment-check-calendar-tooth-dental-mirror_188237-1628.jpg?w=2000");
-        }
-    </style>
-    
+       
     <div>
         <h2 class="text-center">@ViewBag.Title</h2>
 
@@ -41,9 +36,9 @@
                     </div>
                     <div class="mb-3">
 
-                        <label asp-for="@Model.PreferredHour" class="form-label-add-edit">Choose Hour</label>
-                        <input asp-for="@Model.PreferredHour" class="form-control" type="time" date-val="true" aria-required="true" />
-                        <span asp-validation-for="PreferredHour" class="text-danger"></span>
+                        <label asp-for="@Model.Hour" class="form-label-add-edit">Choose Hour</label>
+                        <input asp-for="@Model.Hour" class="form-control" type="time" date-val="true" aria-required="true" />
+                        <span asp-validation-for="Hour" class="text-danger"></span>
                     </div>
 
 
@@ -74,7 +69,7 @@
 
 
                     <div class="mb-3">
-                        <input class="btn btn-info mb-2 w-100 p-3 fw-bold" type="submit" value="Book Now" />
+                        <input class="btn btn-secondary mb-2 w-100 p-3" type="submit" value="Book Now" />
                     </div>
 
 
