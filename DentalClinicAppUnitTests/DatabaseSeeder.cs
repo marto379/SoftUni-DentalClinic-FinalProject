@@ -13,6 +13,8 @@ namespace DentalClinicAppUnitTests
     {
         private static IdentityUser DentistUser;
         private static Dentist Dentist;
+        private static Patient Patient;
+        private static DentistPatients dentistPatients;
 
         public static void SeedDatabase(DentalClinicDbContext dbContext)
         {
@@ -32,6 +34,7 @@ namespace DentalClinicAppUnitTests
 
             Dentist = new Dentist()
             {
+                Id = new Guid("863216EA-D8E2-4916-BD07-FA3312F4BCE2"),
                 UserId = "62c0134c-0b9c-4e54-8fa6-16f605084784",
                 FirstName = "Gosho",
                 LastName = "Georgiev",
@@ -39,8 +42,29 @@ namespace DentalClinicAppUnitTests
                 SpecializationId = 1
             };
 
+            Patient = new Patient()
+            {
+                Id = new Guid("1AD6E120-1B14-45BD-B9DC-BE06C94D8C68"),
+                FirstName = "Pacient",
+                LastName = "Pacientov",
+                Gender = "male",
+                PhoneNumber = "0878777777",
+                PersonalId = "7878787878",
+                Email = "pacient@abv.bg",
+                ImageUrl = "pacient"
+            };
+
+            dentistPatients = new DentistPatients()
+            {
+                Id = new Guid("92CD7286-9D4C-4427-8660-06C38A1A7C65"),
+                PatientId = new Guid("1AD6E120-1B14-45BD-B9DC-BE06C94D8C68"),
+                DentistId = new Guid("863216EA-D8E2-4916-BD07-FA3312F4BCE2")
+            };
+
             dbContext.Users.Add(DentistUser);
             dbContext.Dentists.Add(Dentist);
+            dbContext.Patients.Add(Patient);
+            dbContext.DentistPatients.Add(dentistPatients);
             dbContext.SaveChanges();
         }
     }

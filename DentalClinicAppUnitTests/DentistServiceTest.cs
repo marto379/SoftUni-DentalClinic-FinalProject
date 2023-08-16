@@ -36,9 +36,49 @@ namespace DentalClinicAppUnitTests
         }
 
         [Test]
-        public async Task AddPatientAsyncShoulReturnNullWhenNotFound()
+        public async Task GetDentistAsyncShouldRerturnCorrectData()
         {
-            Assert.Pass();
+            Dentist dentist = await dentistService.GetDentistAsync("92CD7286-9D4C-4427-8660-06C38A1A7C65");
+            string expectedFirsName = "Gosho";
+            string actualFirstName = dentist.FirstName;
+
+            Assert.IsNotNull(dentist);
+            Assert.AreEqual(expectedFirsName, actualFirstName);
+        }
+
+        [Test]
+        public async Task GetDentistAsyncShouldRerturnNullWhenNotFound()
+        {
+            var dentist = await dentistService.GetDentistAsync("92CD7286-9D4C-4427-8660-06C38A1A7C66");
+
+            Assert.IsNull(dentist);
+        }
+
+        [Test]
+        public async Task GetPatientAsyncShouldRerturnCorrectData()
+        {
+            Patient patient = await dentistService.GetPatientAsync("92CD7286-9D4C-4427-8660-06C38A1A7C65");
+            string expectedFirsName = "Pacient";
+            string actualFirstName = patient.FirstName;
+
+            string expectedLastName = "Pacientov";
+            string actualLastName = patient.LastName;
+
+            string expectedGender = "male";
+            string actualGender = patient.Gender;
+
+            Assert.IsNotNull(patient);
+            Assert.That(actualFirstName, Is.EqualTo(expectedFirsName));
+            Assert.That(actualLastName, Is.EqualTo(expectedLastName));
+            Assert.That(actualGender, Is.EqualTo(expectedGender));
+        }
+
+        [Test]
+        public async Task GetPatientAsyncShouldRerturnNullWhenNotFound()
+        {
+            var patient = await dentistService.GetPatientAsync("92CD7286-9D4C-4427-8660-06C38A1A7C66");
+
+            Assert.IsNull(patient);
         }
     }
 }

@@ -135,7 +135,7 @@ namespace DentalClinicSystem.Services
         public async Task<Patient?> GetPatientAsync(string id)
         {
             var patient = await dbContext.DentistPatients
-                .Where(dp => dp.Id.ToString() == id)
+                .Where(dp => dp.Id.ToString().ToLower() == id.ToLower())
                 .Select(db => db.Patient)
                 .FirstOrDefaultAsync();
             return patient;
@@ -144,7 +144,7 @@ namespace DentalClinicSystem.Services
         public async Task<Dentist?> GetDentistAsync(string id)
         {
             var dentist = await dbContext.DentistPatients
-                .Where(dp => dp.Id.ToString() == id)
+                .Where(dp => dp.Id.ToString().ToLower() == id.ToLower())
                 .Select(db => db.Dentist)
                 .FirstOrDefaultAsync();
             return dentist;
