@@ -1,0 +1,14 @@
+﻿@using DentalClinicSystem.Web.ViewModels.User
+@model MakeDentistViewModel
+
+<form asp-action="RemoveDentist" asp-controller="User" method="post">
+    <div class="mb-3">
+        <label asp-for="@Model.Email" class="form-label-add-edit">Add required email</label>
+        <input asp-for="@Model.Email" class="form-control" aria-required="true" />
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <input class="btn btn-danger mb-2 w-30 p-3 fw-bold" type="submit" value="Remove Dentist" />
+    </div>
+</form>

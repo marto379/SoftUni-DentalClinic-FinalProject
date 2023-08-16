@@ -30,8 +30,8 @@ namespace DentalClinicSystem.Services
             Appointment appointment = new()
             {
                 //Id = Guid.NewGuid(),
-                FirstName = model.FirstName,
-                LastName = model.LastName,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
                 Date = model.Date,
                 PreferredHour = model.PreferredHour,
                 TreatmentId = model.TreatmentId,

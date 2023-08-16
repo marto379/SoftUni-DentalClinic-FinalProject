@@ -43,9 +43,7 @@ namespace DentalClinicSystem.Web
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IDentistService, DentistService>();
             builder.Services.AddScoped<ITreatmentService, TreatmentService>();
-
-            
-
+                      
             WebApplication app = builder.Build();
 
             // Configure the HTTP request pipeline.
