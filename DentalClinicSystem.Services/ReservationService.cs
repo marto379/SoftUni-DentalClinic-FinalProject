@@ -23,11 +23,11 @@ namespace DentalClinicSystem.Services
         {
             var patientExist = await dbContext.OnlinePatients
                 .AnyAsync(p => p.OnlineUserId == patientId);
-                
+
 
             OnlinePatientAppointments OPappointment = new();
 
-            
+
             if (patientExist == false)
             {
                 OnlinePatient patient = new OnlinePatient()
@@ -56,7 +56,8 @@ namespace DentalClinicSystem.Services
                 OnlinePatientId = OPappointment.OnlinePatientId,
                 Date = model.Date,
                 Hour = DateTime.Parse(model.Hour),
-                TreatmentId = model.TreatmentId
+                TreatmentId = model.TreatmentId,
+                DentistId = Guid.Parse(model.DentistId)
             };
 
             OPappointment.OnlineAppointmentId = appointmentToAdd.Id;
@@ -104,7 +105,8 @@ namespace DentalClinicSystem.Services
                     LastName = op.OnlinePatient.LastName,
                     Date = op.OnlineAppointment.Date,
                     Hour = op.OnlineAppointment.Hour.ToString("H:mm"),
-                    Treatment = op.OnlineAppointment.Treatment.Name
+                    Treatment = op.OnlineAppointment.Treatment.Name,
+                    Dentist = $"{op.OnlineAppointment.Dentist.FirstName} {op.OnlineAppointment.Dentist.LastName}"
                 }).ToListAsync();
         }
 

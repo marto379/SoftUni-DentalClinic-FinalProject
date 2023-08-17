@@ -26,7 +26,7 @@ namespace DentalClinicSystem.Services
             Patient? patient = await GetPatientAsync(dpId);
             Dentist? dentist = await GetDentistAsync(dpId);
 
-            
+
             Appointment appointment = new()
             {
                 //Id = Guid.NewGuid(),
@@ -95,7 +95,7 @@ namespace DentalClinicSystem.Services
                 return new List<PatientViewModel>();
             }
 
-            return  dentist.DentistPatients
+            return dentist.DentistPatients
                 .Where(p => p.IsDeleted == false)
                 .Select(p => new PatientViewModel
                 {
@@ -110,11 +110,6 @@ namespace DentalClinicSystem.Services
 
         public async Task<IEnumerable<AppointmentPatientViewModel>> GetPatientAppointmentsByIdAsync(string id)
         {
-
-            //var CurrDentPatient = await dbContext.DentistPatients
-            //    .Where(dp => dp.Id == Guid.Parse(id))
-            //    .FirstOrDefaultAsync();
-
             var patient = await GetPatientAsync(id);
 
             var result = await dbContext.PatientsAppointments

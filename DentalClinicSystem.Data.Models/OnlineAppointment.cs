@@ -24,5 +24,10 @@ namespace DentalClinicSystem.Data.Models
         [ForeignKey(nameof(Treatment))]
         public int TreatmentId { get; set; }
         public Treatment Treatment { get; set; } = null!;
+
+        [ForeignKey(nameof(Dentist))]
+        public Guid DentistId { get; set; }
+
+        public Dentist Dentist { get; set; }
     }
 }

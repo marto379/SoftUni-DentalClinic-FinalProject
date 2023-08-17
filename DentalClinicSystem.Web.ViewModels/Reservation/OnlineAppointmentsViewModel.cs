@@ -17,5 +17,7 @@ namespace DentalClinicSystem.Web.ViewModels.Reservation
         public string Hour { get; set; }
 
         public string Treatment { get; set; }
+
+        public string Dentist { get; set; }
     }
 }

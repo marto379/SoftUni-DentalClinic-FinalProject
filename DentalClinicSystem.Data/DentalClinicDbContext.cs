@@ -27,6 +27,8 @@
 
         public DbSet<PatientAppointment> PatientsAppointments { get; set; }
 
+        public DbSet<Specialization> Specializations { get; set; }
+
         public DbSet<OnlinePatient> OnlinePatients { get; set; }
 
         public DbSet<OnlineAppointment> OnlineAppointments { get; set; }

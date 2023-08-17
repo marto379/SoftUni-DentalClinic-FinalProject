@@ -39,6 +39,8 @@
 
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 
+        public ICollection<OnlineAppointment> OnlineAppointments { get; set; } = new List<OnlineAppointment>();
+
         public ICollection<DentistPatients> DentistPatients { get; set; } = new List<DentistPatients>();
     }
 }

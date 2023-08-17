@@ -1,4 +1,5 @@
-﻿using DentalClinicSystem.Services.Interfaces;
+﻿using DentalClinicSystem.Data.Models;
+using DentalClinicSystem.Services.Interfaces;
 using DentalClinicSystem.Web.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,10 +13,12 @@ namespace DentalClinicSystem.Web.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public UserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly IUserService userService;
+        public UserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IUserService userService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            this.userService = userService;
         }
 
         public async Task<IActionResult> CreateRole(string roleName)
@@ -47,9 +50,9 @@ namespace DentalClinicSystem.Web.Controllers
 
         }
         [HttpGet]
-        public IActionResult MakeDentist()
+        public async Task<IActionResult> MakeDentist()
         {
-            var model = new MakeDentistViewModel();
+            MakeDentistViewModel model = await userService.GetUserViewModel();
             return View(model);
         }
 
@@ -68,6 +71,8 @@ namespace DentalClinicSystem.Web.Controllers
             {
                 return NotFound();
             }
+            await userService.AddUserToDentists(model,user.Id);
+            
 
             var result = await _userManager.AddToRoleAsync(user, "Dentist");
             if (result.Succeeded)
@@ -103,6 +108,7 @@ namespace DentalClinicSystem.Web.Controllers
             }
 
             var result = await _userManager.RemoveFromRoleAsync(user, "Dentist");
+            await userService.RemoveFromDentists(user.Id);
             if (result.Succeeded)
             {
                 TempData[WarningMessage] = $"Successfully removed Dentist: {user.Email}";
