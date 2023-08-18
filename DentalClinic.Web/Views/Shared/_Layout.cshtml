@@ -83,6 +83,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-action="AddPatient" asp-controller="Dentist">Add Patient</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-action="AllAppointments" asp-controller="Dentist">My appointments</a>
+                                </li>
                             }
                         }
                         @if (!User.IsInRole("Admin") && !User.IsInRole("Dentist"))
