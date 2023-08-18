@@ -29,10 +29,18 @@
         [HttpPost]
         public async Task<IActionResult> Booking(OnlineBookingViewModel model)
         {
-            
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                string errosMessage = error.ErrorMessage;
+            }
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid data!");
+                return View(model);
+            }
             try
             {
-
                 var userId = User.GetId();
 
                 await this.reservationService.AddReservationAsync(model, userId);

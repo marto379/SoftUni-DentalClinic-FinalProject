@@ -20,7 +20,7 @@ namespace DentalClinicSystem.Services
             this.dbContext = dbContext;
         }
 
-        public async Task AddPatientAppointmentAsync(AddAppointmentViewModel model, string dpId)
+        public async Task AddPatientAppointmentAsync(AddPatientAppointmentviewModel model, string dpId)
         {
 
             Patient? patient = await GetPatientAsync(dpId);
@@ -33,7 +33,7 @@ namespace DentalClinicSystem.Services
                 FirstName = patient.FirstName,
                 LastName = patient.LastName,
                 Date = model.Date,
-                PreferredHour = model.PreferredHour,
+                PreferredHour = model.Hour,
                 TreatmentId = model.TreatmentId,
                 PatientId = patient.Id,
                 DentistId = dentist.Id

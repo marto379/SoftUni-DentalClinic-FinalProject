@@ -21,10 +21,7 @@ namespace DentalClinicSystem.Web.Controllers
         {
             var userId = User.GetId();
             var model = await patientService.GetPatientAppointmentsAsync(userId);
-            //if (!model.Any())
-            //{
-
-            //}
+            
             return View(model);
         }
 
@@ -36,14 +33,7 @@ namespace DentalClinicSystem.Web.Controllers
             return View(model);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(AddEventViewModel model)
-        //{
-        //    await eventService.EditEventAsync(model);
-
-        //    return RedirectToAction("All", "Event");
-        //}
-
+        
         public async Task<IActionResult> Appointments(string id)
         {
             var model = await patientService.GetPatientAppointmentsAsync(id);

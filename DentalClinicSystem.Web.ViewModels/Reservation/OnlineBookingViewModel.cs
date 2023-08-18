@@ -20,13 +20,13 @@ namespace DentalClinicSystem.Web.ViewModels.Reservation
 
         public string DentistId { get; set; } = null!;
 
-        public string Dentist { get; set; } = null!;
+        //public string Dentist { get; set; } = null!;
 
         public IEnumerable<DentistViewModel> Dentists { get; set; } = new List<DentistViewModel>();
 
         public int TreatmentId { get; set; }
 
-        public string Treatment { get; set; } = null!;
+        //public string Treatment { get; set; } = null!;
 
         public IEnumerable<TreatmentViewModel> Treatments { get; set; } = new List<TreatmentViewModel>();
     }

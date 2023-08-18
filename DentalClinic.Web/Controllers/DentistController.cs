@@ -33,7 +33,7 @@ namespace DentalClinicSystem.Web.Controllers
             }
 
             var model = new AddPatientViewModel();
-            
+
             return View(model);
         }
 
@@ -48,6 +48,7 @@ namespace DentalClinicSystem.Web.Controllers
             }
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("", "Invalid data!");
                 return View(model);
             }
             try
@@ -64,7 +65,8 @@ namespace DentalClinicSystem.Web.Controllers
             }
             catch (Exception)
             {
-                throw new InvalidOperationException("Error");
+                this.ModelState.AddModelError(string.Empty, "An error occurred!");
+                return View(model);
             }
 
         }
@@ -88,11 +90,28 @@ namespace DentalClinicSystem.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAppointment(AddAppointmentViewModel model, string id)
+        public async Task<IActionResult> AddAppointment(AddPatientAppointmentviewModel model, string id)
         {
-
-            await dentistService.AddPatientAppointmentAsync(model, id);
-            return RedirectToAction("PatientAppointments", "Dentist", new { id = model.Id });
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                string errosMessage = error.ErrorMessage;
+            }
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid data!");
+                return View(model);
+            }
+            try
+            {
+                await dentistService.AddPatientAppointmentAsync(model, id);
+                return RedirectToAction("PatientAppointments", "Dentist", new { id = model.Id });
+            }
+            catch (Exception)
+            {
+                this.ModelState.AddModelError(string.Empty, "An error occurred!");
+                return View(model);
+            }
         }
 
         [HttpGet]
