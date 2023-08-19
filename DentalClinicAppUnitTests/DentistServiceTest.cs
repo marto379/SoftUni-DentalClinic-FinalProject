@@ -2,6 +2,7 @@
 using DentalClinicSystem.Data.Models;
 using DentalClinicSystem.Services;
 using DentalClinicSystem.Services.Interfaces;
+using DentalClinicSystem.Web.ViewModels.Dentist;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
@@ -55,6 +56,14 @@ namespace DentalClinicAppUnitTests
         }
 
         [Test]
+        public async Task GetPatientAsyncShouldRerturnNullWhenNotFound()
+        {
+            var patient = await dentistService.GetPatientAsync("92CD7286-9D4C-4427-8660-06C38A1A7C66");
+
+            Assert.IsNull(patient);
+        }
+
+        [Test]
         public async Task GetPatientAsyncShouldRerturnCorrectData()
         {
             Patient patient = await dentistService.GetPatientAsync("92CD7286-9D4C-4427-8660-06C38A1A7C65");
@@ -74,11 +83,43 @@ namespace DentalClinicAppUnitTests
         }
 
         [Test]
-        public async Task GetPatientAsyncShouldRerturnNullWhenNotFound()
-        {
-            var patient = await dentistService.GetPatientAsync("92CD7286-9D4C-4427-8660-06C38A1A7C66");
 
-            Assert.IsNull(patient);
+        public async Task AddPatientAsyncShouldSaveCoorectDataInDatabase()
+        {
+            var userId = "62c0134c-0b9c-4e54-8fa6-16f605084784";
+
+            AddPatientViewModel model = new()
+            {
+                FirstName = "Test",
+                LastName = "Testov",
+                PhoneNumber = "0878787878",
+                Gender = "Male",
+                Email = "test@abv.bg",
+                ImageUrl = "test",
+                PersonalId = "7812124556"
+            };
+
+            dentistService.AddPatientAsync(model, userId);
+
+            Assert.IsTrue(dbContext.Patients.Count() == 2);
+            Assert.IsTrue(dbContext.DentistPatients.Any());
+            Assert.IsTrue(dbContext.Patients.Any(p => p.FirstName == "Test"));
+        }
+
+        [Test]
+        public async Task AddPatientAppointmentAsyncShouldAddCorrectData()
+        {
+            var dpId = "92CD7286-9D4C-4427-8660-06C38A1A7C65";
+            AddPatientAppointmentviewModel model = new()
+            {
+                Date = DateTime.UtcNow,
+                Hour = DateTime.UtcNow,
+                TreatmentId = 1
+            };
+
+            dentistService.AddPatientAppointmentAsync(model, dpId);
+
+            Assert.IsTrue(dbContext.PatientsAppointments.Any(pa => pa.PatientId.ToString().ToUpper() == "1AD6E120-1B14-45BD-B9DC-BE06C94D8C68"));
         }
     }
 }

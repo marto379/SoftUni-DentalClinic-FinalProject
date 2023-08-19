@@ -29,7 +29,6 @@ namespace DentalClinicSystem.Services
 
             Appointment appointment = new()
             {
-                //Id = Guid.NewGuid(),
                 FirstName = patient.FirstName,
                 LastName = patient.LastName,
                 Date = model.Date,
@@ -51,7 +50,7 @@ namespace DentalClinicSystem.Services
         public async Task AddPatientAsync(AddPatientViewModel model, string userId)
         {
             var dentist = await dbContext.Dentists
-                .Where(d => d.UserId == userId)
+                .Where(d => d.UserId.ToLower() == userId.ToLower())
                 .FirstOrDefaultAsync();
 
             if (dentist is null)
